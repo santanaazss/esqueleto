@@ -6,15 +6,14 @@
 // INSTRUÇÕES: Substitua com as credenciais do seu projeto Firebase
 // Console: https://console.firebase.google.com
 const FIREBASE_CONFIG = {
-  apiKey:            "AIzaSyDEMO_SUBSTITUA_COM_SUA_API_KEY",
-  authDomain:        "sigml-tcc.firebaseapp.com",
-  databaseURL:       "https://sigml-tcc-default-rtdb.firebaseio.com",
-  projectId:         "sigml-tcc",
-  storageBucket:     "sigml-tcc.appspot.com",
-  messagingSenderId: "000000000000",
-  appId:             "1:000000000000:web:demo"
+  apiKey: "AIzaSyCpI_mjogp94WUuM4EzNmctvNZVJbsy7QA",
+  authDomain: "projetoo-57172.firebaseapp.com",
+  databaseURL: "https://projetoo-57172-default-rtdb.firebaseio.com",
+  projectId: "projetoo-57172",
+  storageBucket: "projetoo-57172.firebasestorage.app",
+  messagingSenderId: "1070958822066",
+  appId: "1:1070958822066:web:c55b2433149b1e71dbffab"
 };
-
 // ── Usuários demo ──────────────────────────────────────────────────
 const DEMO_USERS = {
   "admin@sigml.com.br":    { password: "123456", name: "Administrador", role: "admin" },
