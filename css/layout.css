@@ -1,0 +1,185 @@
+/* ═══════════════════════════════════════════════════════════════
+   SIGML 4.0 — Layout Principal (topbar, sidebar, main)
+   ═══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+:root {
+  --font: 'IBM Plex Sans', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+/* ── Grid principal ──────────────────────────────────────────────── */
+.app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: 52px 1fr;
+  height: 100vh;
+}
+
+/* ── Topbar ──────────────────────────────────────────────────────── */
+.topbar {
+  grid-column: 1 / -1;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  box-shadow: var(--shadow);
+}
+
+.logo {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.logo span { color: var(--text-muted); }
+
+.topbar-divider { width: 1px; height: 20px; background: var(--border); }
+.topbar-spacer  { flex: 1; }
+
+.status-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.alert-badge {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.15s, border-color 0.15s;
+}
+.alert-badge:hover { color: var(--text-primary); border-color: var(--border-light); }
+.alert-badge .count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  width: 16px; height: 16px;
+  font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+}
+
+.user-chip { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
+.avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600;
+  color: var(--accent);
+}
+
+/* ── Botão de tema ───────────────────────────────────────────────── */
+.theme-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--text-secondary);
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font);
+  font-size: 12px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.theme-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--border-light);
+  background: var(--bg-elevated);
+}
+.theme-toggle .theme-icon { font-size: 15px; line-height: 1; }
+
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+.sidebar {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 16px 0;
+  overflow-y: auto;
+}
+
+.nav-section  { padding: 0 12px; margin-bottom: 4px; }
+.nav-label    { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; padding: 8px 8px 4px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 2px;
+  border: 1px solid transparent;
+}
+.nav-item:hover  { background: var(--bg-elevated); color: var(--text-primary); }
+.nav-item.active { background: var(--accent-dim); color: var(--accent); border-color: rgba(59,130,246,0.25); }
+.nav-item .icon  { width: 16px; text-align: center; font-size: 16px; }
+.nav-badge {
+  margin-left: auto;
+  background: var(--red);
+  color: #fff;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 10px; font-weight: 600;
+}
+.nav-badge.green { background: var(--green-dim); color: var(--green); }
+
+/* ── Main ────────────────────────────────────────────────────────── */
+.main { overflow-y: auto; background: var(--bg-primary); }
+.view { display: none; padding: 24px; }
+.view.active { display: block; }
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Firebase status (fixed bottom) ─────────────────────────────── */
+.fb-status {
+  position: fixed; bottom: 16px; right: 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 12px; font-family: var(--mono);
+  color: var(--text-secondary);
+  z-index: 50;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: var(--shadow);
+}
+.fb-dot               { width: 8px; height: 8px; border-radius: 50%; }
+.fb-dot.connected     { background: var(--green); }
+.fb-dot.disconnected  { background: var(--red); }
+.fb-dot.demo          { background: var(--amber); }

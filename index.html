@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SIGML 4.0 — Sistema Integrado de Gestão Logística e Manufatura</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<!-- Estilos -->
+<link rel="stylesheet" href="css/variables.css"/>
+<link rel="stylesheet" href="css/layout.css"/>
+<link rel="stylesheet" href="css/components.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+
+<!-- Tema: carregado antes do body para evitar flash de tema errado -->
+<script src="js/theme.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TELA DE LOGIN
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">SIGML 4.0</div>
+    <div class="login-sub">Sistema Integrado de Gestão Logística e Manufatura</div>
+    <div class="form-group" style="text-align:left">
+      <label class="form-label">E-mail corporativo</label>
+      <input class="form-input" type="email" id="loginEmail" value="admin@sigml.com.br" placeholder="email@empresa.com"/>
+    </div>
+    <div class="form-group" style="text-align:left">
+      <label class="form-label">Senha</label>
+      <input class="form-input" type="password" id="loginPassword" value="123456" placeholder="••••••••"/>
+    </div>
+    <button class="btn primary" style="width:100%;margin-top:8px;justify-content:center" onclick="doLogin()">
+      Entrar no sistema
+    </button>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:12px">
+      Modo demonstração: credenciais já preenchidas
+    </p>
+    <div class="login-error" id="loginError">Credenciais inválidas. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHELL DA APLICAÇÃO
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="app" id="appShell" style="display:none">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="logo">SIGML<span>/4.0</span></div>
+    <div class="topbar-divider"></div>
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      <span id="fbStatusText">Conectando...</span>
+    </div>
+    <div class="topbar-spacer"></div>
+
+    <!-- Botão de tema dark/light -->
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Mudar tema">
+      <span class="theme-icon">☀️</span> Claro
+    </button>
+
+    <div class="alert-badge" onclick="navigate('alertas')">
+      <i class="ph ph-bell"></i>
+      <div class="count" id="alertCount">3</div>
+    </div>
+    <div class="user-chip">
+      <div class="avatar" id="userAvatar">AD</div>
+      <span id="userName">Admin</span>
+    </div>
+    <button class="btn" style="font-size:11px;padding:5px 10px" onclick="doLogout()">Sair</button>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="nav-section">
+      <div class="nav-label">Principal</div>
+      <div class="nav-item active" onclick="navigate('dashboard')" id="nav-dashboard">
+        <i class="ph ph-squares-four icon"></i> Dashboard
+      </div>
+      <div class="nav-item" onclick="navigate('kanban')" id="nav-kanban">
+        <i class="ph ph-kanban icon"></i> Ordens de Produção
+        <span class="nav-badge green" id="kanbanBadge">12</span>
+      </div>
+      <div class="nav-item" onclick="navigate('estoque')" id="nav-estoque">
+        <i class="ph ph-package icon"></i> Estoque
+        <span class="nav-badge" id="estoqueBadge">2</span>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Operacional</div>
+      <div class="nav-item" onclick="navigate('fornecedores')" id="nav-fornecedores">
+        <i class="ph ph-factory icon"></i> Fornecedores
+      </div>
+      <div class="nav-item" onclick="navigate('alertas')" id="nav-alertas">
+        <i class="ph ph-warning-circle icon"></i> Alertas
+        <span class="nav-badge" id="alertBadge">3</span>
+      </div>
+      <div class="nav-item" onclick="navigate('chatbot')" id="nav-chatbot">
+        <i class="ph ph-robot icon"></i> Assistente IA
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Sistema</div>
+      <div class="nav-item" onclick="navigate('relatorios')" id="nav-relatorios">
+        <i class="ph ph-file-text icon"></i> Relatórios
+      </div>
+      <div class="nav-item" onclick="navigate('configuracoes')" id="nav-configuracoes">
+        <i class="ph ph-gear icon"></i> Configurações
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main">
+
+    <!-- Dashboard -->
+    <div class="view active" id="view-dashboard">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Dashboard Geral</div>
+          <div class="page-subtitle">Visão em tempo real — atualizado via Firebase Realtime Database</div>
+        </div>
+        <button class="btn primary" onclick="forceRefresh()">
+          <i class="ph ph-arrows-clockwise"></i> Atualizar
+        </button>
+      </div>
+      <div class="realtime-bar">
+        <div class="rt-dot"></div>
+        <span>Sincronização em tempo real ativa · Firebase RTDB</span>
+        <span style="margin-left:auto" id="lastSync">--:--:--</span>
+      </div>
+      <div class="metrics-grid" id="metricsGrid">
+        <div class="metric-card blue">
+          <div class="metric-label">Ordens Ativas</div>
+          <div class="metric-value" id="m-ordens">--</div>
+          <div class="metric-delta up" id="m-ordens-delta">carregando...</div>
+        </div>
+        <div class="metric-card green">
+          <div class="metric-label">Peças Produzidas (mês)</div>
+          <div class="metric-value" id="m-pecas">--</div>
+          <div class="metric-delta up" id="m-pecas-delta">carregando...</div>
+        </div>
+        <div class="metric-card amber">
+          <div class="metric-label">Itens em Estoque Crítico</div>
+          <div class="metric-value" id="m-critico">--</div>
+          <div class="metric-delta warn" id="m-critico-delta">carregando...</div>
+        </div>
+        <div class="metric-card red">
+          <div class="metric-label">Alertas Pendentes</div>
+          <div class="metric-value" id="m-alertas">--</div>
+          <div class="metric-delta down" id="m-alertas-delta">carregando...</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Ordens por Status</div>
+          <div id="statusChart" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            Atividade Recente
+            <span style="font-size:10px;color:var(--text-muted)">últimas 24h</span>
+          </div>
+          <div id="activityFeed" style="display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="card">
+          <div class="card-title">Ordens de Produção Recentes</div>
+          <div class="table-wrap">
+            <table id="dashTable">
+              <thead>
+                <tr>
+                  <th>ID</th><th>Produto</th><th>Quantidade</th>
+                  <th>Responsável</th><th>Status</th><th>Prazo</th>
+                </tr>
+              </thead>
+              <tbody id="dashTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kanban -->
+    <div class="view" id="view-kanban">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Ordens de Produção — Kanban</div>
+          <div class="page-subtitle">Arraste os cards entre colunas para atualizar o status no Firebase</div>
+        </div>
+        <button class="btn primary" onclick="openAddOrdem()">
+          <i class="ph ph-plus"></i> Nova Ordem
+        </button>
+      </div>
+      <div class="kanban-board" id="kanbanBoard"></div>
+    </div>
+
+    <!-- Estoque -->
+    <div class="view" id="view-estoque">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Gestão de Estoque</div>
+          <div class="page-subtitle">Controle de insumos e componentes automotivos</div>
+        </div>
+        <button class="btn primary" onclick="openAddItem()">
+          <i class="ph ph-plus"></i> Novo Item
+        </button>
+      </div>
+      <div class="realtime-bar">
+        <div class="rt-dot"></div>
+        <span>Alertas automáticos ativados · Threshold configurável por item</span>
+      </div>
+      <div class="estoque-grid" id="estoqueGrid"></div>
+    </div>
+
+    <!-- Fornecedores -->
+    <div class="view" id="view-fornecedores">
+      <div class="page-header">
+        <div class="page-title">Fornecedores</div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fornecedor</th><th>CNPJ</th><th>Categoria</th>
+                <th>Lead Time</th><th>Status</th><th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="fornecedoresBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alertas -->
+    <div class="view" id="view-alertas">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Central de Alertas</div>
+          <div class="page-subtitle">Notificações proativas geradas automaticamente pelo sistema</div>
+        </div>
+        <button class="btn" onclick="clearAllAlerts()">
+          <i class="ph ph-check"></i> Limpar todos
+        </button>
+      </div>
+      <div class="alert-list" id="alertList"></div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="view" id="view-chatbot">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Assistente Logístico IA</div>
+          <div class="page-subtitle">Integração Dialogflow · Consultas em linguagem natural</div>
+        </div>
+      </div>
+      <div class="chat-container">
+        <div class="chat-main">
+          <div class="chat-header">
+            <div class="bot-avatar"><i class="ph ph-robot"></i></div>
+            <div>
+              <div class="bot-name">LogBot — Assistente SIGML</div>
+              <div class="bot-status">
+                <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>
+                Online
+              </div>
+            </div>
+          </div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="quick-replies" id="quickReplies"></div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chatInput"
+              placeholder="Pergunte sobre estoque, ordens, alertas..."
+              onkeydown="if(event.key==='Enter')sendChat()"/>
+            <button class="chat-send" onclick="sendChat()">Enviar</button>
+          </div>
+        </div>
+        <div class="chat-sidebar-panel">
+          <div class="card-title" style="font-size:12px">Dados em Tempo Real</div>
+          <div id="chatSidebar" style="display:flex;flex-direction:column;gap:8px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Relatórios -->
+    <div class="view" id="view-relatorios">
+      <div class="page-header">
+        <div class="page-title">Relatórios</div>
+      </div>
+      <div class="grid-3">
+        <div class="card" style="cursor:pointer" onclick="generateReport('producao')">
+          <div style="font-size:28px;margin-bottom:12px;color:var(--text-secondary)">
+            <i class="ph ph-chart-line-up"></i>
+          </div>
+          <div style="font-weight:500;margin-bottom:6px">Relatório de Produção</div>
+          <div style="font-size:12px;color:var(--text-muted)">Ordens, eficiência e OEE do período</div>
+        </div>
+        <div class="card" style="cursor:pointer" onclick="generateReport('estoque')">
+          <div style="font-size:28px;margin-bottom:12px;color:var(--text-secondary)">
+            <i class="ph ph-package"></i>
+          </div>
+          <div style="font-weight:500;margin-bottom:6px">Relatório de Estoque</div>
+          <div style="font-size:12px;color:var(--text-muted)">Movimentações, giro e ruptura</div>
+        </div>
+        <div class="card" style="cursor:pointer" onclick="generateReport('fornecedores')">
+          <div style="font-size:28px;margin-bottom:12px;color:var(--text-secondary)">
+            <i class="ph ph-factory"></i>
+          </div>
+          <div style="font-weight:500;margin-bottom:6px">Performance de Fornecedores</div>
+          <div style="font-size:12px;color:var(--text-muted)">OTIF, qualidade e lead time</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;display:none" id="reportOutput"></div>
+    </div>
+
+    <!-- Configurações -->
+    <div class="view" id="view-configuracoes">
+      <div class="page-header">
+        <div class="page-title">Configurações do Sistema</div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Firebase</div>
+          <div class="form-group">
+            <label class="form-label">Project ID</label>
+            <input class="form-input" id="cfg-project" placeholder="meu-projeto-firebase"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Database URL</label>
+            <input class="form-input" id="cfg-db" placeholder="https://projeto.firebaseio.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">API Key</label>
+            <input class="form-input" type="password" id="cfg-key" placeholder="AIza..."/>
+          </div>
+          <button class="btn primary" onclick="saveFirebaseConfig()">Salvar e Reconectar</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Alertas Automáticos</div>
+          <div class="form-group">
+            <label class="form-label">Threshold de Estoque Crítico (%)</label>
+            <input class="form-input" type="number" id="cfg-threshold" value="20"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Intervalo de Verificação (min)</label>
+            <input class="form-input" type="number" id="cfg-interval" value="15"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-mail para Alertas Críticos</label>
+            <input class="form-input" id="cfg-email" value="gestao@empresa.com.br"/>
+          </div>
+          <button class="btn primary" onclick="saveAlertConfig()">Salvar Configurações</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MODAIS
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOrdem">
+  <div class="modal">
+    <div class="modal-title">Nova Ordem de Produção</div>
+    <div class="form-group">
+      <label class="form-label">Produto / Peça</label>
+      <input class="form-input" id="f-produto" placeholder="Ex: Flange de aço ABNT 1020"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Quantidade</label>
+      <input class="form-input" type="number" id="f-qty" placeholder="500"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Responsável</label>
+      <input class="form-input" id="f-resp" placeholder="Nome do operador"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Prioridade</label>
+      <select class="form-input" id="f-prio">
+        <option value="alta">Alta</option>
+        <option value="media" selected>Média</option>
+        <option value="baixa">Baixa</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Prazo</label>
+      <input class="form-input" type="date" id="f-prazo"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modalOrdem')">Cancelar</button>
+      <button class="btn primary" onclick="createOrdem()">Criar Ordem</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalItem">
+  <div class="modal">
+    <div class="modal-title">Novo Item de Estoque</div>
+    <div class="form-group">
+      <label class="form-label">Nome do Item</label>
+      <input class="form-input" id="fi-nome" placeholder="Ex: Parafuso M8 × 25mm"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Categoria</label>
+      <select class="form-input" id="fi-cat">
+        <option>Fixadores</option>
+        <option>Chapas e Perfis</option>
+        <option>Componentes Elétricos</option>
+        <option>Fluidos e Lubrificantes</option>
+        <option>EPI e Segurança</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Quantidade Atual</label>
+      <input class="form-input" type="number" id="fi-qty" placeholder="1000"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Estoque Mínimo (threshold alerta)</label>
+      <input class="form-input" type="number" id="fi-min" placeholder="200"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Estoque Máximo</label>
+      <input class="form-input" type="number" id="fi-max" placeholder="2000"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modalItem')">Cancelar</button>
+      <button class="btn primary" onclick="createItem()">Salvar Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase status -->
+<div class="fb-status">
+  <div class="fb-dot demo" id="fbDot"></div>
+  <span id="fbStatusLabel">Firebase: inicializando...</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCRIPTS (ordem de dependência)
+     ═══════════════════════════════════════════════════════════════ -->
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/render.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/alerts.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
