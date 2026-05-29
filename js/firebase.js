@@ -13,18 +13,7 @@ function initFirebase() {
     DB   = firebase.database();
     AUTH = firebase.auth();
 
-    const connRef = DB.ref('.info/connected');
-    connRef.on('value', snap => {
-      if (snap.val() === true) {
-        IS_DEMO = false;
-        document.getElementById('fbDot').className       = 'fb-dot connected';
-        document.getElementById('fbStatusLabel').textContent = 'Firebase: conectado';
-        document.getElementById('fbStatusText').textContent  = 'Firebase conectado';
-        syncFromFirebase();
-      } else {
-        enableDemoMode();
-      }
-    });
+    
   } catch (e) {
     enableDemoMode();
   }
@@ -32,9 +21,7 @@ function initFirebase() {
 
 function enableDemoMode() {
   IS_DEMO = true;
-  document.getElementById('fbDot').className           = 'fb-dot demo';
-  document.getElementById('fbStatusLabel').textContent = 'Firebase: modo demo (configure credenciais)';
-  document.getElementById('fbStatusText').textContent  = 'Modo demo ativo';
+
 }
 
 // ── Sincronização em tempo real ────────────────────────────────────

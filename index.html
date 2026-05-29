@@ -324,48 +324,110 @@
     </div>
 
     <!-- Configurações -->
-    <div class="view" id="view-configuracoes">
+   <div class="view" id="view-configuracoes">
       <div class="page-header">
-        <div class="page-title">Configurações do Sistema</div>
+        <div>
+          <div class="page-title">Configurações do Sistema</div>
+          <div class="page-subtitle">Gerencie os parâmetros operacionais da planta e regras de negócio</div>
+        </div>
       </div>
+      
       <div class="grid-2">
         <div class="card">
-          <div class="card-title">Firebase</div>
-          <div class="form-group">
-            <label class="form-label">Project ID</label>
-            <input class="form-input" id="cfg-project" placeholder="meu-projeto-firebase"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Database URL</label>
-            <input class="form-input" id="cfg-db" placeholder="https://projeto.firebaseio.com"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">API Key</label>
-            <input class="form-input" type="password" id="cfg-key" placeholder="AIza..."/>
-          </div>
-          <button class="btn primary" onclick="saveFirebaseConfig()">Salvar e Reconectar</button>
-        </div>
-        <div class="card">
-          <div class="card-title">Alertas Automáticos</div>
+          <div class="card-title"><i class="ph ph-warning-circle"></i> Alertas e Níveis de Estoque</div>
           <div class="form-group">
             <label class="form-label">Threshold de Estoque Crítico (%)</label>
             <input class="form-input" type="number" id="cfg-threshold" value="20"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Intervalo de Verificação (min)</label>
+            <label class="form-label">Intervalo de Varredura Automatizada (min)</label>
             <input class="form-input" type="number" id="cfg-interval" value="15"/>
           </div>
           <div class="form-group">
-            <label class="form-label">E-mail para Alertas Críticos</label>
+            <label class="form-label">E-mail para Notificações Críticas (Geral)</label>
             <input class="form-input" id="cfg-email" value="gestao@empresa.com.br"/>
           </div>
-          <button class="btn primary" onclick="saveAlertConfig()">Salvar Configurações</button>
+          <div class="form-group">
+            <label class="form-label">Notificar Compras automaticamente no nível crítico?</label>
+            <select class="form-input" id="cfg-auto-buy">
+              <option value="sim" selected>Sim, gerar rascunho de pedido</option>
+              <option value="nao">Não, apenas alertar no painel</option>
+            </select>
+          </div>
+          <button class="btn primary" onclick="saveAlertConfig()">Salvar Alertas</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="ph ph-wrench"></i> Parâmetros de Manufatura & Eficiência</div>
+          <div class="form-group">
+            <label class="form-label">Meta de OEE Global (%)</label>
+            <input class="form-input" type="number" id="cfg-oee-target" value="85"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Turnos de Trabalho Ativos (por dia)</label>
+            <input class="form-input" type="number" id="cfg-shifts" value="3"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tempo Padrão de Setup de Máquina (min)</label>
+            <input class="form-input" type="number" id="cfg-setup-time" value="45"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cálculo de Lead Time Padrão</label>
+            <select class="form-input" id="cfg-lead-calc">
+              <option value="historico" selected>Média histórica dos últimos 30 dias</option>
+              <option value="fixo">Estático por cadastro de fornecedor</option>
+            </select>
+          </div>
+          <button class="btn primary" onclick="saveManufConfig()">Salvar Parâmetros de Produção</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="ph ph-cpu"></i> Integração Coleta de Dados (IoT / Balanças)</div>
+          <div class="form-group">
+            <label class="form-label">Protocolo das Balanças de Estoque</label>
+            <select class="form-input" id="cfg-iot-proto">
+              <option value="mqtt" selected>MQTT (Broker Interno)</option>
+              <option value="http">HTTP Rest API (Polling)</option>
+              <option value="modbus">Modbus TCP</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Endereço do Broker MQTT (Sensores da Planta)</label>
+            <input class="form-input" id="cfg-mqtt-url" placeholder="mqtt://broker.local:1883" value="mqtt://192.168.1.50:1883"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Frequência de Leitura dos Sensores de Esteira</label>
+            <select class="form-input" id="cfg-sensor-freq">
+              <option value="1s">A cada 1 segundo</option>
+              <option value="5s" selected>A cada 5 segundos</option>
+              <option value="30s">A cada 30 segundos</option>
+            </select>
+          </div>
+          <button class="btn primary" onclick="saveIotConfig()">Salvar Configurações IoT</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><i class="ph ph-truck"></i> Regras de Logística & Expedição</div>
+          <div class="form-group">
+            <label class="form-label">Critério de Saída de Insumos</label>
+            <select class="form-input" id="cfg-log-rule">
+              <option value="fifo" selected>FIFO (Primeiro que entra, primeiro que sai)</option>
+              <option value="fefo">FEFO (Primeiro que vence, primeiro que sai)</option>
+              <option value="lifo">LIFO (Último que entra, primeiro que sai)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Margem de Tolerância de Atraso de Recebimento (Horas)</label>
+            <input class="form-input" type="number" id="cfg-log-tolerance" value="4"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Transportadora Padrão para Coleta de Emergência</label>
+            <input class="form-input" id="cfg-default-carrier" value="Logística Rápida Trans-Brasil Ltda"/>
+          </div>
+          <button class="btn primary" onclick="saveLogConfig()">Salvar Regras de Logística</button>
         </div>
       </div>
     </div>
-
-  </main>
-</div>
 
 <!-- ═══════════════════════════════════════════════════════════════
      MODAIS
@@ -440,11 +502,7 @@
   </div>
 </div>
 
-<!-- Firebase status -->
-<div class="fb-status">
-  <div class="fb-dot demo" id="fbDot"></div>
-  <span id="fbStatusLabel">Firebase: inicializando...</span>
-</div>
+
 
 <!-- ═══════════════════════════════════════════════════════════════
      SCRIPTS (ordem de dependência)
