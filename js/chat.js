@@ -41,13 +41,14 @@ function processIntent(text) {
   if (/ajuda|help|comando|opções/i.test(text))                         return BOT_INTENTS.ajuda();
   return 'Não entendi completamente. Posso ajudar com: **estoque**, **ordens**, **alertas**, **métricas** ou **fornecedores**. Tente uma dessas palavras-chave!';
 }
-
 function addBotMessage(text) {
   const msgs = document.getElementById('chatMessages');
   const div  = document.createElement('div');
   div.className = 'msg bot';
   div.innerHTML = `
-    <div class="bot-avatar" style="width:28px;height:28px;border-radius:6px;background:var(--accent-dim);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🤖</div>
+    <div class="bot-avatar" style="width:28px;height:28px;border-radius:6px;background:var(--accent-dim);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">
+      <i class="ph ph-robot"></i>
+    </div>
     <div>
       <div class="msg-bubble">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>
       <div class="msg-time">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div>
@@ -75,7 +76,9 @@ function showTyping() {
   div.className = 'msg bot';
   div.id        = 'typingIndicator';
   div.innerHTML = `
-    <div style="width:28px;height:28px;border-radius:6px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:14px">🤖</div>
+    <div style="width:28px;height:28px;border-radius:6px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:16px">
+      <i class="ph ph-robot"></i>
+    </div>
     <div class="msg-bubble typing-dots"><span></span><span></span><span></span></div>`;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
