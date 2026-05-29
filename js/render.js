@@ -102,7 +102,7 @@ function renderKanban() {
               onclick="viewOrdem('${c.id}')">
               <div class="kc-id">${c.id}</div>
               <div class="kc-title">${c.produto}</div>
-              <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">
+              <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">
                 ${Number(c.qty).toLocaleString('pt-BR')} peças · ${c.responsavel}
               </div>
               <div class="kc-meta">
@@ -142,8 +142,8 @@ function renderEstoque() {
           <span style="color:var(--text-muted)">mín: ${item.min} / máx: ${item.max}</span>
         </div>
         <div style="display:flex;gap:6px;margin-top:10px">
-          <button class="btn" style="font-size:11px;padding:4px 8px;flex:1" onclick="ajustarEstoque('${item.id}','entrada')">+ Entrada</button>
-          <button class="btn" style="font-size:11px;padding:4px 8px;flex:1" onclick="ajustarEstoque('${item.id}','saida')">− Saída</button>
+          <button class="btn" style="font-size:13px;padding:4px 8px;flex:1" onclick="ajustarEstoque('${item.id}','entrada')">+ Entrada</button>
+          <button class="btn" style="font-size:13px;padding:4px 8px;flex:1" onclick="ajustarEstoque('${item.id}','saida')">− Saída</button>
         </div>
       </div>`;
   }).join('');
@@ -159,7 +159,7 @@ function renderFornecedores() {
       <td style="font-family:var(--mono)">${f.lead}</td>
       <td><span class="badge ${f.status==='ativo'?'green':'red'}">${f.status.charAt(0).toUpperCase()+f.status.slice(1)}</span></td>
       <td>
-        <button class="btn" style="font-size:11px;padding:4px 8px" onclick="toggleFornecedor('${f.id}')">
+        <button class="btn" style="font-size:13px;padding:4px 8px" onclick="toggleFornecedor('${f.id}')">
           ${f.status==='ativo'?'Suspender':'Reativar'}
         </button>
       </td>
@@ -191,18 +191,18 @@ function renderChatSidebar() {
   const ativas = STATE.ordens.filter(o => !['concluido','cancelado'].includes(o.status));
   document.getElementById('chatSidebar').innerHTML = `
     <div style="background:var(--bg-elevated);border-radius:8px;padding:12px">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">ESTOQUE CRÍTICO</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">ESTOQUE CRÍTICO</div>
       ${crit.length === 0
         ? '<div style="font-size:14px;color:var(--green)">Nenhum item crítico</div>'
         : crit.map(i => `<div style="font-size:14px;color:var(--red);margin-bottom:4px">• ${i.nome}: ${i.qty}/${i.min}</div>`).join('')}
     </div>
     <div style="background:var(--bg-elevated);border-radius:8px;padding:12px">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">ORDENS ATIVAS</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">ORDENS ATIVAS</div>
       <div style="font-size:22px;font-weight:600;font-family:var(--mono);color:var(--accent)">${ativas.length}</div>
-      <div style="font-size:11px;color:var(--text-muted)">de ${STATE.ordens.length} ordens</div>
+      <div style="font-size:13px;color:var(--text-muted)">de ${STATE.ordens.length} ordens</div>
     </div>
     <div style="background:var(--bg-elevated);border-radius:8px;padding:12px">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">ALERTAS ATIVOS</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">ALERTAS ATIVOS</div>
       <div style="font-size:22px;font-weight:600;font-family:var(--mono);color:var(--red)">${STATE.alertas.filter(a=>a.ativo).length}</div>
     </div>`;
 }
