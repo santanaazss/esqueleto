@@ -50,11 +50,11 @@ function renderDashboard() {
   document.getElementById('statusChart').innerHTML =
     Object.entries(statusMap).map(([k, v]) => `
       <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:12px;color:var(--text-secondary);width:140px">${statusNames[k]}</span>
+        <span style="font-size:14px;color:var(--text-secondary);width:140px">${statusNames[k]}</span>
         <div style="flex:1;background:var(--border);border-radius:2px;height:6px;overflow:hidden">
           <div style="height:100%;width:${total ? Math.round(v/total*100) : 0}%;background:${statusColors[k]};border-radius:2px;transition:width 0.5s"></div>
         </div>
-        <span style="font-size:12px;font-family:var(--mono);color:var(--text-muted);width:20px;text-align:right">${v}</span>
+        <span style="font-size:14px;font-family:var(--mono);color:var(--text-muted);width:20px;text-align:right">${v}</span>
       </div>`).join('');
 
   // Feed de atividades
@@ -66,7 +66,7 @@ function renderDashboard() {
   document.getElementById('activityFeed').innerHTML = activities.map(a => `
     <div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
       <div style="width:6px;height:6px;border-radius:50%;background:${a.cor};margin-top:5px;flex-shrink:0"></div>
-      <span style="font-size:12px;color:var(--text-secondary);flex:1">${a.txt}</span>
+      <span style="font-size:15px;color:var(--text-secondary);flex:1">${a.txt}</span>
     </div>`).join('');
 
   // Tabela de ordens recentes
@@ -193,8 +193,8 @@ function renderChatSidebar() {
     <div style="background:var(--bg-elevated);border-radius:8px;padding:12px">
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">ESTOQUE CRÍTICO</div>
       ${crit.length === 0
-        ? '<div style="font-size:12px;color:var(--green)">Nenhum item crítico</div>'
-        : crit.map(i => `<div style="font-size:12px;color:var(--red);margin-bottom:4px">• ${i.nome}: ${i.qty}/${i.min}</div>`).join('')}
+        ? '<div style="font-size:14px;color:var(--green)">Nenhum item crítico</div>'
+        : crit.map(i => `<div style="font-size:14px;color:var(--red);margin-bottom:4px">• ${i.nome}: ${i.qty}/${i.min}</div>`).join('')}
     </div>
     <div style="background:var(--bg-elevated);border-radius:8px;padding:12px">
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">ORDENS ATIVAS</div>
