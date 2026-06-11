@@ -125,15 +125,18 @@ html, body {
 }
 .theme-toggle .theme-icon { font-size: 15px; line-height: 1; }
 
-/* ── Sidebar (Formato Avançado - Letras Grandes e Espaçadas) ─────── */
+/* ── Sidebar (Modificada para empurrar o Admin para baixo) ─────── */
 .sidebar {
   background: var(--bg-secondary);
   border-right: 1px solid var(--border);
   padding: 24px 0;
   overflow-y: auto;
+  /* ADICIONADO: Flexbox vertical garante que itens com margin-top: auto caiam */
+  display: flex;
+  flex-direction: column;
 }
 
-.nav-section  { padding: 0 16px; margin-bottom: 24px; }
+.nav-section  { padding: 0 16px; margin-bottom: 24px; flex-shrink: 0; }
 .nav-label    { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; padding: 0 12px 10px; }
 
 .nav-item {
@@ -172,6 +175,12 @@ html, body {
   font-size: 11px; font-weight: 700;
 }
 .nav-badge.green { background: var(--green-dim); color: var(--green); }
+
+/* Seção do perfil adicionada especificamente no CSS para reforçar fixação */
+.sidebar .profile-section {
+  margin-top: auto !important; /* Força o bloco a se apoiar no chão da sidebar */
+  margin-bottom: 0px;
+}
 
 /* ── Main ────────────────────────────────────────────────────────── */
 .main { overflow-y: auto; background: var(--bg-primary); }
