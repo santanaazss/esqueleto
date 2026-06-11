@@ -14,6 +14,10 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
   <link rel="stylesheet" href="css/variables.css"/>
   <link rel="stylesheet" href="css/layout.css"/>
   <link rel="stylesheet" href="css/components.css"/>
@@ -293,21 +297,21 @@
         <div class="page-title">Módulos de Exportação e BI</div>
       </div>
       <div class="grid-3">
-        <div class="card" style="cursor:pointer" onclick="generateReport('producao')">
+        <div class="card" style="cursor:pointer" onclick="loadReportData('producao')">
           <div style="font-size:24px; margin-bottom:12px; color:var(--text-secondary)">
             <i class="ph ph-chart-line-up"></i>
           </div>
           <div style="font-weight:600; font-size:15px; margin-bottom:4px">Produtividade e OEE</div>
           <div style="font-size:13px; color:var(--text-muted)">Gargalos, histórico de paradas e eficiência das linhas.</div>
         </div>
-        <div class="card" style="cursor:pointer" onclick="generateReport('estoque')">
+        <div class="card" style="cursor:pointer" onclick="loadReportData('estoque')">
           <div style="font-size:24px; margin-bottom:12px; color:var(--text-secondary)">
             <i class="ph ph-package"></i>
           </div>
           <div style="font-weight:600; font-size:15px; margin-bottom:4px">Giro de Inventário</div>
           <div style="font-size:13px; color:var(--text-muted)">Curva ABC, movimentações e taxa de ruptura.</div>
         </div>
-        <div class="card" style="cursor:pointer" onclick="generateReport('fornecedores')">
+        <div class="card" style="cursor:pointer" onclick="loadReportData('fornecedores')">
           <div style="font-size:24px; margin-bottom:12px; color:var(--text-secondary)">
             <i class="ph ph-factory"></i>
           </div>
@@ -315,7 +319,26 @@
           <div style="font-size:13px; color:var(--text-muted)">Nível de serviço, conformidade de entrega e lead times.</div>
         </div>
       </div>
-      <div class="card" style="margin-top:16px; display:none" id="reportOutput"></div>
+      
+      <div class="card" style="margin-top:16px; display:none" id="reportOutput">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 id="reportTitle" style="font-size: 16px; font-weight: 600;">Visualização do Relatório</h3>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn secondary" onclick="exportToExcel()" style="background: #1f7a42; color: white; border: none;">
+              <i class="ph ph-file-xls"></i> Exportar Excel
+            </button>
+            <button class="btn secondary" onclick="exportToPDF()" style="background: #b32424; color: white; border: none;">
+              <i class="ph ph-file-pdf"></i> Exportar PDF
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="reportTable">
+            <thead id="reportTableHead"></thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 </div>
