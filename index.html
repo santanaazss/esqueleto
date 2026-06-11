@@ -6,7 +6,8 @@
   <title>SIGML 4.0 — Sistema Integrado de Gestão Logística e Manufatura</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -25,7 +26,7 @@
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
     <div class="login-logo">SIGML<span>4.0</span></div>
-    <div class="login-sub">Controle de Produção e Estoque de Fábrica</div>
+    <div class="login-sub">Controle de Production e Estoque de Fábrica</div>
     
     <div class="form-group" style="text-align:left">
       <label class="form-label">E-mail corporativo</label>
@@ -52,7 +53,7 @@
 
     <div class="topbar-spacer"></div>
 
-   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="width: 30px; height: 30px; padding: 4px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer;">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="width: 30px; height: 30px; padding: 4px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer;">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 380" class="theme-svg-icon" style="width: 100%; height: 100%;">
         <defs>
           <clipPath id="__lottie_element_5"><rect width="396" height="380" x="0" y="0"></rect></clipPath>
@@ -121,9 +122,6 @@
       <div class="nav-item" onclick="navigate('relatorios')" id="nav-relatorios">
         <i class="ph ph-file-text icon"></i> Relatórios Gerenciais
       </div>
-      <div class="nav-item" onclick="navigate('configuracoes')" id="nav-configuracoes">
-        <i class="ph ph-gear icon"></i> Parâmetros do Sistema
-      </div>
     </div>
   </nav>
 
@@ -141,8 +139,6 @@
       </div>
       
       <div class="realtime-bar">
-       
-        
         <span style="margin-left:auto" id="lastSync">Sincronizando...</span>
       </div>
       
@@ -321,111 +317,6 @@
       </div>
       <div class="card" style="margin-top:16px; display:none" id="reportOutput"></div>
     </div>
-
-    <div class="view" id="view-configuracoes">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Parâmetros Operacionais do Sistema</div>
-          <div class="page-subtitle">Configurações globais de regras de negócio, limites de segurança e SLAs da planta</div>
-        </div>
-      </div>
-      
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title"><i class="ph ph-warning-circle"></i> Alertas de Margem e Segurança</div>
-          <div class="form-group">
-            <label class="form-label">Limite Crítico de Segurança (%)</label>
-            <input class="form-input" type="number" id="cfg-threshold" value="20"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Frequência da Varredura Automática (minutos)</label>
-            <input class="form-input" type="number" id="cfg-interval" value="15"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">E-mail para Alertas Críticos</label>
-            <input class="form-input" id="cfg-email" value="gestao@empresa.com.br"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Regra para Lotes Críticos</label>
-            <select class="form-input" id="cfg-auto-buy">
-              <option value="sim" selected>Gerar minuta de compra automaticamente</option>
-              <option value="nao">Apenas reportar inconformidade em tela</option>
-            </select>
-          </div>
-          <button class="btn primary" onclick="saveAlertConfig()">Salvar Definições</button>
-        </div>
-
-        <div class="card">
-          <div class="card-title"><i class="ph ph-wrench"></i> Métricas de Engenharia e Manufatura</div>
-          <div class="form-group">
-            <label class="form-label">Meta Global de OEE (%)</label>
-            <input class="form-input" type="number" id="cfg-oee-target" value="85"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Turnos de Trabalho Operacionais / Dia</label>
-            <input class="form-input" type="number" id="cfg-shifts" value="3"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Tempo Padrão de Setup Estimado (minutos)</label>
-            <input class="form-input" type="number" id="cfg-setup-time" value="45"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Modelo de Cálculo de Lead Time</label>
-            <select class="form-input" id="cfg-lead-calc">
-              <option value="historico" selected>Média ponderada (Últimos 30 dias)</option>
-              <option value="fixo">Estático com base no contrato do fornecedor</option>
-            </select>
-          </div>
-          <button class="btn primary" onclick="saveManufConfig()">Salvar Engenharia</button>
-        </div>
-
-        <div class="card">
-          <div class="card-title"><i class="ph ph-cpu"></i> Protocolos de Automação Industrial (IoT)</div>
-          <div class="form-group">
-            <label class="form-label">Protocolo de Comunicação de Campo</label>
-            <select class="form-input" id="cfg-iot-proto">
-              <option value="mqtt" selected>MQTT (Broker Local)</option>
-              <option value="http">HTTP Rest API (Polling)</option>
-              <option value="modbus">Modbus TCP/IP</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Endereço do Gateway MQTT</label>
-            <input class="form-input" id="cfg-mqtt-url" placeholder="mqtt://broker.local:1883" value="mqtt://192.168.1.50:1883"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Janela de Varredura de Sensores Industriais</label>
-            <select class="form-input" id="cfg-sensor-freq">
-              <option value="1s">1 segundo</option>
-              <option value="5s" selected>5 segundos (Recomendado)</option>
-              <option value="30s">30 segundos</option>
-            </select>
-          </div>
-          <button class="btn primary" onclick="saveIotConfig()">Salvar Gateway</button>
-        </div>
-
-        <div class="card">
-          <div class="card-title"><i class="ph ph-truck"></i> Expedição e Políticas Logísticas</div>
-          <div class="form-group">
-            <label class="form-label">Método de Movimentação de Materiais</label>
-            <select class="form-input" id="cfg-log-rule">
-              <option value="fifo" selected>FIFO (First-In, First-Out)</option>
-              <option value="fefo">FEFO (First-Expired, First-Out)</option>
-              <option value="lifo">LIFO (Last-In, First-Out)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Janela Máxima de Tolerância de Atrasos (Horas)</label>
-            <input class="form-input" type="number" id="cfg-log-tolerance" value="4"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Operador Logístico de Contingência</label>
-            <input class="form-input" id="cfg-default-carrier" value="Logística Rápida Trans-Brasil Ltda"/>
-          </div>
-          <button class="btn primary" onclick="saveLogConfig()">Salvar Diretrizes</button>
-        </div>
-      </div>
-    </div>
   </main>
 </div>
 
@@ -465,7 +356,7 @@
 
 <div class="modal-overlay" id="modalItem">
   <div class="modal">
-    <div class="modal-title">Cadastro de Insumo </div>
+    <div class="modal-title">Cadastro de Insumo</div>
     <div class="form-group">
       <label class="form-label">Descrição do Item</label>
       <input class="form-input" id="fi-nome" placeholder="Ex: Parafuso M8 × 25mm"/>
