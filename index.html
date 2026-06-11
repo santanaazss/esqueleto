@@ -88,14 +88,14 @@
   <nav class="sidebar" style="display: flex; flex-direction: column;">
     <div class="nav-section">
       <div class="nav-label">Monitoramento</div>
-      <div class="nav-item active" onclick="navigate('dashboard')" id="nav-dashboard">
+      <div class="nav-item" onclick="navigate('dashboard')" id="nav-dashboard">
         <i class="ph ph-squares-four icon"></i> Painel de Controle
       </div>
       <div class="nav-item" onclick="navigate('kanban')" id="nav-kanban">
         <i class="ph ph-kanban icon"></i> Ordens de Produção
         <span class="nav-badge green" id="kanbanBadge">-</span>
       </div>
-      <div class="nav-item" onclick="navigate('estoque')" id="nav-estoque">
+      <div class="nav-item active" onclick="navigate('estoque')" id="nav-estoque">
         <i class="ph ph-package icon"></i> Controle de Estoque
         <span class="nav-badge" id="estoqueBadge">-</span>
       </div>
@@ -122,20 +122,20 @@
       </div>
     </div>
 
-    <div class="nav-section profile-section" style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 12px;">
-      <div class="user-chip" style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); padding: 8px 12px; border-radius: 8px;">
-        <div class="avatar" id="userAvatar" style="width: 32px; height: 32px; border-radius: 50%; background: var(--blue, #3b82f6); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; color: #fff;">--</div>
-        <span id="userName" style="font-size: 13px; font-weight: 500; color: var(--text-primary);">Carregando...</span>
+    <div class="nav-section profile-section" style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px;">
+      <div class="user-chip" style="display: flex; align-items: center; gap: 12px; background: var(--bg-card); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
+        <div class="avatar" id="userAvatar" style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent-dim); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; color: var(--accent);">--</div>
+        <span id="userName" style="font-size: 16px; font-weight: 500; color: var(--text-primary);">Carregando...</span>
       </div>
-      <button class="btn secondary" style="font-size:12px; padding:8px 12px; width: 100%; justify-content: center; display: flex; align-items: center; gap: 6px;" onclick="doLogout()">
-        <i class="ph ph-sign-out"></i> Sair do Sistema
+      <button class="theme-toggle" style="font-size: 14px; padding: 12px; width: 100%; justify-content: center; display: flex; align-items: center; gap: 8px;" onclick="doLogout()">
+        <i class="ph ph-sign-out" style="font-size: 18px;"></i> Sair do Sistema
       </button>
     </div>
   </nav>
 
   <main class="main">
 
-    <div class="view active" id="view-dashboard">
+    <div class="view" id="view-dashboard">
       <div class="page-header">
         <div>
           <div class="page-title">Indicadores de Planta</div>
@@ -215,7 +215,7 @@
       <div class="kanban-board" id="kanbanBoard"></div>
     </div>
 
-    <div class="view" id="view-estoque">
+    <div class="view active" id="view-estoque">
       <div class="page-header">
         <div>
           <div class="page-title">Inventário de Insumos</div>
@@ -226,7 +226,204 @@
         </button>
       </div>
 
-      <div class="estoque-grid" id="estoqueGrid"></div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Descrição do Item</th>
+                <th>Classificação</th>
+                <th>Mínimo</th>
+                <th>Máximo</th>
+                <th style="width: 220px;">Nível / Status</th>
+                <th style="text-align: center; width: 180px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="estoqueTableBody">
+              <tr>
+                <td><strong>Aço ABNT 1020 Barra</strong></td>
+                <td><span class="badge">Chapas e Perfis</span></td>
+                <td>200</td>
+                <td>2.000</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 45%; height: 100%; background: var(--green);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">45%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Parafuso M8×25 Zincado</strong></td>
+                <td><span class="badge">Fixadores</span></td>
+                <td>500</td>
+                <td>5.000</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 12%; height: 100%; background: var(--red);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--red);">12%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Óleo de Corte 15L</strong></td>
+                <td><span class="badge">Fluidos e Lubrificantes</span></td>
+                <td>20</td>
+                <td>200</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 75%; height: 100%; background: var(--green);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">75%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Cabo Elétrico 16mm²</strong></td>
+                <td><span class="badge">Componentes Elétricos</span></td>
+                <td>50</td>
+                <td>500</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 60%; height: 100%; background: var(--green);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">60%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Chapa Inox 304 3mm</strong></td>
+                <td><span class="badge">Chapas e Perfis</span></td>
+                <td>30</td>
+                <td>200</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 35%; height: 100%; background: var(--amber);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--amber);">35%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Bucha Bronze SAE 660</strong></td>
+                <td><span class="badge">Componentes Elétricos</span></td>
+                <td>40</td>
+                <td>300</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 50%; height: 100%; background: var(--green);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">50%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Luva Nitrílica Tamanho M</strong></td>
+                <td><span class="badge">EPI e Segurança</span></td>
+                <td>100</td>
+                <td>1.000</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 8%; height: 100%; background: var(--red);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--red);">8%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Aço SAE 52100 Rolamento</strong></td>
+                <td><span class="badge">Chapas e Perfis</span></td>
+                <td>100</td>
+                <td>1.000</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 88%; height: 100%; background: var(--green);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">88%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Graxa Moly-Bisulfeto 2kg</strong></td>
+                <td><span class="badge">Fluidos e Lubrificantes</span></td>
+                <td>20</td>
+                <td>150</td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 92%; height: 100%; background: var(--green);"></div>
+                    </div>
+                    <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace;">92%</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 6px; justify-content: center;">
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-plus"></i> Entrada</button>
+                    <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;"><i class="ph ph-minus"></i> Saída</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <div class="view" id="view-fornecedores">
