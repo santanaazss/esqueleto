@@ -29,15 +29,15 @@ function seedDemoData() {
   ];
 
   STATE.estoque = [
-    { id: "EST-001", sku: "ACO-1020-B",  nome: "Aço ABNT 1020 Barra",        cat: "Chapas e Perfis",         qty: 850, min: 200,  max: 2000, unidade: "kg" },
-    { id: "EST-002", sku: "PAR-M8-ZN",   nome: "Parafuso M8×25 Zincado",     cat: "Fixadores",               qty: 320, min: 500,  max: 5000, unidade: "un" },
-    { id: "EST-003", sku: "OLE-CUT-15",  nome: "Óleo de Corte 15L",          cat: "Fluidos e Lubrificantes", qty: 45,  min: 20,   max: 200,  unidade: "L"  },
-    { id: "EST-004", sku: "ELE-CABO-16", nome: "Cabo Elétrico 16mm²",        cat: "Componentes Elétricos",   qty: 180, min: 50,   max: 500,  unidade: "m"  },
-    { id: "EST-005", sku: "INX-304-CH",  nome: "Chapa Inox 304 3mm",         cat: "Chapas e Perfis",         qty: 12,  min: 30,   max: 200,  unidade: "un" },
-    { id: "EST-006", sku: "BRZ-660-BU",  nome: "Bucha Bronze SAE 660",       cat: "Componentes Elétricos",   qty: 95,  min: 40,   max: 300,  unidade: "un" },
-    { id: "EST-007", sku: "EPI-LUV-NC",  nome: "Luva Nitrílica Tamanho M",  cat: "EPI e Segurança",         qty: 18,  min: 100,  max: 1000, unidade: "par"},
-    { id: "EST-008", sku: "ACO-SAE-52",  nome: "Aço SAE 52100 Rolamento",   cat: "Chapas e Perfis",         qty: 430, min: 100,  max: 1000, unidade: "kg" },
-    { id: "EST-009", sku: "GRA-MBO-2K",  nome: "Graxa Moly-Bisulfeto 2kg",  cat: "Fluidos e Lubrificantes", qty: 67,  min: 20,   max: 150,  unidade: "un" },
+    { id: "EST-001",  nome: "Aço ABNT 1020 Barra",        cat: "Chapas e Perfis",         qty: 850, min: 200,  max: 2000, unidade: "kg" },
+    { id: "EST-002",  nome: "Parafuso M8×25 Zincado",     cat: "Fixadores",               qty: 320, min: 500,  max: 5000, unidade: "un" },
+    { id: "EST-003",  nome: "Óleo de Corte 15L",          cat: "Fluidos e Lubrificantes", qty: 45,  min: 20,   max: 200,  unidade: "L"  },
+    { id: "EST-004",  nome: "Cabo Elétrico 16mm²",        cat: "Componentes Elétricos",   qty: 180, min: 50,   max: 500,  unidade: "m"  },
+    { id: "EST-005",  nome: "Chapa Inox 304 3mm",         cat: "Chapas e Perfis",         qty: 12,  min: 30,   max: 200,  unidade: "un" },
+    { id: "EST-006",  nome: "Bucha Bronze SAE 660",       cat: "Componentes Elétricos",   qty: 95,  min: 40,   max: 300,  unidade: "un" },
+    { id: "EST-007",   nome: "Luva Nitrílica Tamanho M",  cat: "EPI e Segurança",         qty: 18,  min: 100,  max: 1000, unidade: "par"},
+    { id: "EST-008",   nome: "Aço SAE 52100 Rolamento",   cat: "Chapas e Perfis",         qty: 430, min: 100,  max: 1000, unidade: "kg" },
+    { id: "EST-009",  nome: "Graxa Moly-Bisulfeto 2kg",  cat: "Fluidos e Lubrificantes", qty: 67,  min: 20,   max: 150,  unidade: "un" },
   ];
 
   STATE.fornecedores = [

@@ -5,28 +5,25 @@
 const THEME_KEY = 'sigml_theme';
 
 /**
- * Aplica o tema no <html> e atualiza o ícone do botão.
+ * Aplica o tema no <html> e atualiza a acessibilidade do botão.
  * @param {'dark'|'light'} theme
  */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem(THEME_KEY, theme);
 
-  const btn  = document.getElementById('themeToggle');
+  const btn = document.getElementById('themeToggle');
   if (!btn) return;
 
   if (theme === 'light') {
-    btn.innerHTML = '<span class="theme-icon">🌙</span> Escuro';
     btn.title = 'Mudar para modo escuro';
   } else {
-    btn.innerHTML = '<span class="theme-icon">☀️</span> Claro';
     btn.title = 'Mudar para modo claro';
   }
 }
 
 /**
  * Alterna entre dark e light.
- * Chamado pelo botão na topbar.
  */
 function toggleTheme() {
   const current = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -34,7 +31,7 @@ function toggleTheme() {
 }
 
 /**
- * Inicializa o tema: prioridade = localStorage → preferência do SO → dark.
+ * Inicializa o tema.
  */
 function initTheme() {
   const saved = localStorage.getItem(THEME_KEY);

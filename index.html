@@ -1,186 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SIGML 4.0 — Sistema Integrado de Gestão Logística e Manufatura</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGML 4.0 — Sistema Integrado de Gestão Logística e Manufatura</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-<!-- Estilos -->
-<link rel="stylesheet" href="css/variables.css"/>
-<link rel="stylesheet" href="css/layout.css"/>
-<link rel="stylesheet" href="css/components.css"/>
-<link rel="stylesheet" href="css/pages.css"/>
+  <link rel="stylesheet" href="css/variables.css"/>
+  <link rel="stylesheet" href="css/layout.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
 
-<!-- Tema: carregado antes do body para evitar flash de tema errado -->
-<script src="js/theme.js"></script>
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     TELA DE LOGIN
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
-    <div class="login-logo">SIGML 4.0</div>
-    <div class="login-sub">Sistema Integrado de Gestão Logística e Manufatura</div>
+    <div class="login-logo">SIGML<span>4.0</span></div>
+    <div class="login-sub">Controle de Produção e Estoque de Fábrica</div>
+    
     <div class="form-group" style="text-align:left">
       <label class="form-label">E-mail corporativo</label>
-      <input class="form-input" type="email" id="loginEmail" value="admin@sigml.com.br" placeholder="email@empresa.com"/>
+      <input class="form-input" type="email" id="loginEmail" value="admin@sigml.com.br" placeholder="nome@empresa.com.br"/>
     </div>
     <div class="form-group" style="text-align:left">
       <label class="form-label">Senha</label>
       <input class="form-input" type="password" id="loginPassword" value="123456" placeholder="••••••••"/>
     </div>
-    <button class="btn primary" style="width:100%;margin-top:8px;justify-content:center" onclick="doLogin()">
-      Entrar no sistema
+    
+    <button class="btn primary" style="width:100%; margin-top:16px; justify-content:center" onclick="doLogin()">
+      Acessar Sistema
     </button>
-    <p style="font-size:13px;color:var(--text-muted);margin-top:12px">
-      Modo demonstração: credenciais já preenchidas
-    </p>
-    <div class="login-error" id="loginError">Credenciais inválidas. Tente novamente.</div>
+    
+    <div class="login-error" id="loginError">Usuário ou senha incorretos.</div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     SHELL DA APLICAÇÃO
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="app" id="appShell" style="display:none">
 
-  <!-- TOPBAR -->
   <header class="topbar">
     <div class="logo">SIGML<span>/4.0</span></div>
     <div class="topbar-divider"></div>
 
     <div class="topbar-spacer"></div>
 
-    <!-- Botão de tema dark/light -->
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Mudar tema">
-      <span class="theme-icon">☀️</span> Claro
+   <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="width: 30px; height: 30px; padding: 4px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 396 380" class="theme-svg-icon" style="width: 100%; height: 100%;">
+        <defs>
+          <clipPath id="__lottie_element_5"><rect width="396" height="380" x="0" y="0"></rect></clipPath>
+        </defs>
+        <g clip-path="url(#__lottie_element_5)">
+          <g class="moon" transform="matrix(0.9995569586753845,-0.029764344915747643,0.029764344915747643,0.9995569586753845,200.29307556152344,189.87852478027344)" opacity="1">
+            <path stroke-linecap="square" stroke-linejoin="bevel" fill-opacity="0" id="moon-stroke" stroke="currentColor" stroke-width="37.205" d=" M-49.05,21.9 C-13.76,83.02 47.35,119.9 112.51,126.77 C103.9,134.36 94.4,141.23 84.06,147.2 C0.33,195.54 -106.74,166.85 -155.08,83.12 C-203.42,-0.61 -174.73,-107.68 -91,-156.02 C-80.66,-161.99 -69.97,-166.78 -59.08,-170.44 C-85.72,-110.58 -84.33,-39.22 -49.05,21.9z"></path>
+          </g>
+          <g class="star" transform="matrix(0.9999065399169922,-0.013670581392943859,0.013670581392943859,0.9999065399169922,188.89358520507812,154.79380798339844)" opacity="1">
+            <path stroke-linecap="square" stroke-linejoin="bevel" fill-opacity="0" id="moon-stroke" stroke="currentColor" stroke-width="37.205" d=" M116.86,-131.77 C116.86,-88.47 75.23,-46.84 31.93,-46.84 C75.23,-46.84 116.86,-5.22 116.86,38.08 C116.86,-5.22 158.48,-46.84 201.78,-46.84 C158.48,-46.84 116.86,-88.47 116.86,-131.77z"></path>
+          </g>
+          <g class="sun" transform="matrix(1,0,0,1,185.593994140625,190)" opacity="1">
+            <path stroke-linecap="square" stroke-linejoin="bevel" fill-opacity="0" id="sun-stroke" stroke="currentColor" stroke-width="35.717" d=" M11.91,-77.39 C54.62,-77.39 89.29,-42.71 89.29,0 C89.29,42.71 54.62,77.39 11.91,77.39 C-30.8,77.39 -65.48,42.71 -65.48,0 C-65.48,-42.71 -30.8,-77.39 11.91,-77.39z"></path>
+          </g>
+          <g class="rays" transform="matrix(1,0,0,1,185.593994140625,190)" opacity="1">
+            <path stroke-linecap="square" stroke-linejoin="bevel" fill-opacity="0" id="sun-stroke" stroke="currentColor" stroke-width="35.717" d=" M11.906000137329102,142.86599731445312 C11.906000137329102,142.86599731445312 11.906000137329102,166.677001953125 11.906000137329102,166.677001953125 M-130.96099853515625,0 C-130.96099853515625,0 -154.77200317382812,0 -154.77200317382812,0 M11.906000137329102,-166.677001953125 C11.906000137329102,-166.677001953125 11.906000137329102,-142.86599731445312 11.906000137329102,-142.86599731445312 M178.58299255371094,0 C178.58299255371094,0 154.77200317382812,0 154.77200317382812,0 M-89.11599731445312,-101.02200317382812 C-89.11599731445312,-101.02200317382812 -105.9530029296875,-117.85900115966797 -105.9530029296875,-117.85900115966797 M129.76300048828125,117.86000061035156 C129.76300048828125,117.86000061035156 112.9260025024414,101.02100372314453 112.9260025024414,101.02100372314453 M112.9260025024414,-101.02200317382812 C112.9260025024414,-101.02200317382812 129.76499938964844,-117.85900115966797 129.76499938964844,-117.85900115966797 M-105.9530029296875,117.86000061035156 C-105.9530029296875,117.86000061035156 -89.11599731445312,101.02100372314453 -89.11599731445312,101.02100372314453"></path>
+          </g>
+        </g>
+      </svg>
     </button>
 
-    <div class="alert-badge" onclick="navigate('alertas')">
+    <div class="alert-badge" onclick="navigate('alertas')" title="Alertas do Sistema">
       <i class="ph ph-bell"></i>
-      <div class="count" id="alertCount">3</div>
+      <div class="count" id="alertCount">0</div>
     </div>
+    
     <div class="user-chip">
-      <div class="avatar" id="userAvatar">AD</div>
-      <span id="userName">Admin</span>
+      <div class="avatar" id="userAvatar">--</div>
+      <span id="userName">Carregando...</span>
     </div>
-    <button class="btn" style="font-size:13px;padding:5px 10px" onclick="doLogout()">Sair</button>
+    <button class="btn secondary" style="font-size:12px; padding:6px 12px" onclick="doLogout()">Sair</button>
   </header>
 
-  <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="nav-section">
-      <div class="nav-label">Principal</div>
+      <div class="nav-label">Monitoramento</div>
       <div class="nav-item active" onclick="navigate('dashboard')" id="nav-dashboard">
-        <i class="ph ph-squares-four icon"></i> Dashboard
+        <i class="ph ph-squares-four icon"></i> Painel de Controle
       </div>
       <div class="nav-item" onclick="navigate('kanban')" id="nav-kanban">
         <i class="ph ph-kanban icon"></i> Ordens de Produção
-        <span class="nav-badge green" id="kanbanBadge">12</span>
+        <span class="nav-badge green" id="kanbanBadge">-</span>
       </div>
       <div class="nav-item" onclick="navigate('estoque')" id="nav-estoque">
-        <i class="ph ph-package icon"></i> Estoque
-        <span class="nav-badge" id="estoqueBadge">2</span>
+        <i class="ph ph-package icon"></i> Controle de Estoque
+        <span class="nav-badge" id="estoqueBadge">-</span>
       </div>
     </div>
+    
     <div class="nav-section">
-      <div class="nav-label">Operacional</div>
+      <div class="nav-label">Operações</div>
       <div class="nav-item" onclick="navigate('fornecedores')" id="nav-fornecedores">
-        <i class="ph ph-factory icon"></i> Fornecedores
+        <i class="ph ph-factory icon"></i> Cadeia de Suprimentos
       </div>
       <div class="nav-item" onclick="navigate('alertas')" id="nav-alertas">
-        <i class="ph ph-warning-circle icon"></i> Alertas
-        <span class="nav-badge" id="alertBadge">3</span>
+        <i class="ph ph-warning-circle icon"></i> Incidentes e Alertas
+        <span class="nav-badge" id="alertBadge">-</span>
       </div>
       <div class="nav-item" onclick="navigate('chatbot')" id="nav-chatbot">
-        <i class="ph ph-robot icon"></i> Assistente IA
+        <i class="ph ph-robot icon"></i> Assistente Virtual
       </div>
     </div>
+    
     <div class="nav-section">
-      <div class="nav-label">Sistema</div>
+      <div class="nav-label">Gestão</div>
       <div class="nav-item" onclick="navigate('relatorios')" id="nav-relatorios">
-        <i class="ph ph-file-text icon"></i> Relatórios
+        <i class="ph ph-file-text icon"></i> Relatórios Gerenciais
       </div>
       <div class="nav-item" onclick="navigate('configuracoes')" id="nav-configuracoes">
-        <i class="ph ph-gear icon"></i> Configurações
+        <i class="ph ph-gear icon"></i> Parâmetros do Sistema
       </div>
     </div>
   </nav>
 
-  <!-- CONTEÚDO PRINCIPAL -->
   <main class="main">
 
-    <!-- Dashboard -->
     <div class="view active" id="view-dashboard">
       <div class="page-header">
         <div>
-          <div class="page-title">Dashboard Geral</div>
-          <div class="page-subtitle">Visão em tempo real — atualizado via Firebase Realtime Database</div>
+          <div class="page-title">Indicadores de Planta</div>
+          <div class="page-subtitle">Dados consolidados de manufatura e insumos ativos</div>
         </div>
         <button class="btn primary" onclick="forceRefresh()">
-          <i class="ph ph-arrows-clockwise"></i> Atualizar
+          <i class="ph ph-arrows-clockwise"></i> Atualizar Dados
         </button>
       </div>
+      
       <div class="realtime-bar">
-        <div class="rt-dot"></div>
-        <span>Sincronização em tempo real ativa · Firebase RTDB</span>
-        <span style="margin-left:auto" id="lastSync">--:--:--</span>
+       
+        
+        <span style="margin-left:auto" id="lastSync">Sincronizando...</span>
       </div>
+      
       <div class="metrics-grid" id="metricsGrid">
         <div class="metric-card blue">
           <div class="metric-label">Ordens Ativas</div>
           <div class="metric-value" id="m-ordens">--</div>
-          <div class="metric-delta up" id="m-ordens-delta">carregando...</div>
+          <div class="metric-delta" id="m-ordens-delta"></div>
         </div>
         <div class="metric-card green">
-          <div class="metric-label">Peças Produzidas (mês)</div>
+          <div class="metric-label">Volume Produzido (Mês)</div>
           <div class="metric-value" id="m-pecas">--</div>
-          <div class="metric-delta up" id="m-pecas-delta">carregando...</div>
+          <div class="metric-delta" id="m-pecas-delta"></div>
         </div>
         <div class="metric-card amber">
-          <div class="metric-label">Itens em Estoque Crítico</div>
+          <div class="metric-label">Ruptura de Estoque / Crítico</div>
           <div class="metric-value" id="m-critico">--</div>
-          <div class="metric-delta warn" id="m-critico-delta">carregando...</div>
+          <div class="metric-delta" id="m-critico-delta"></div>
         </div>
         <div class="metric-card red">
-          <div class="metric-label">Alertas Pendentes</div>
+          <div class="metric-label">Alertas Não Resolvidos</div>
           <div class="metric-value" id="m-alertas">--</div>
-          <div class="metric-delta down" id="m-alertas-delta">carregando...</div>
+          <div class="metric-delta" id="m-alertas-delta"></div>
         </div>
       </div>
+      
       <div class="grid-2">
         <div class="card">
-          <div class="card-title">Ordens por Status</div>
-          <div id="statusChart" style="display:flex;flex-direction:column;gap:10px"></div>
+          <div class="card-title">Distribuição de Status (O.P.)</div>
+          <div id="statusChart" style="display:flex; flex-direction:column; gap:10px"></div>
         </div>
         <div class="card">
-          <div class="card-title">
-            Atividade Recente
-            <span style="font-size:10px;color:var(--text-muted)">últimas 24h</span>
-          </div>
-          <div id="activityFeed" style="display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto"></div>
+          <div class="card-title">Log de Eventos Recentes</div>
+          <div id="activityFeed" style="display:flex; flex-direction:column; gap:8px; max-height:260px; overflow-y:auto"></div>
         </div>
       </div>
+      
       <div style="margin-top:16px">
         <div class="card">
-          <div class="card-title">Ordens de Produção Recentes</div>
+          <div class="card-title">Últimas Ordens de Produção Emitidas</div>
           <div class="table-wrap">
             <table id="dashTable">
               <thead>
                 <tr>
-                  <th>ID</th><th>Produto</th><th>Quantidade</th>
-                  <th>Responsável</th><th>Status</th><th>Prazo</th>
+                  <th>Cód. OP</th><th>Item / Produto</th><th>Qtd. Solicitada</th>
+                  <th>Operador Responsável</th><th>Status Atual</th><th>Data Limite</th>
                 </tr>
               </thead>
               <tbody id="dashTableBody"></tbody>
@@ -190,50 +198,44 @@
       </div>
     </div>
 
-    <!-- Kanban -->
     <div class="view" id="view-kanban">
       <div class="page-header">
         <div>
-          <div class="page-title">Ordens de Produção — Kanban</div>
-          <div class="page-subtitle">Arraste os cards entre colunas para atualizar o status no Firebase</div>
+          <div class="page-title">Fluxo de Ordens de Produção</div>
+          <div class="page-subtitle">Gerenciamento visual de progresso e gargalos da fábrica</div>
         </div>
         <button class="btn primary" onclick="openAddOrdem()">
-          <i class="ph ph-plus"></i> Nova Ordem
+          <i class="ph ph-plus"></i> Emitir Ordem de Trabalho
         </button>
       </div>
       <div class="kanban-board" id="kanbanBoard"></div>
     </div>
 
-    <!-- Estoque -->
     <div class="view" id="view-estoque">
       <div class="page-header">
         <div>
-          <div class="page-title">Gestão de Estoque</div>
-          <div class="page-subtitle">Controle de insumos e componentes automotivos</div>
+          <div class="page-title">Inventário de Insumos</div>
+          <div class="page-subtitle">Níveis de estoque de matérias-primas e componentes</div>
         </div>
         <button class="btn primary" onclick="openAddItem()">
-          <i class="ph ph-plus"></i> Novo Item
+          <i class="ph ph-plus"></i> Cadastrar Item / Lote
         </button>
       </div>
-      <div class="realtime-bar">
-        <div class="rt-dot"></div>
-        <span>Alertas automáticos ativados · Threshold configurável por item</span>
-      </div>
+
       <div class="estoque-grid" id="estoqueGrid"></div>
     </div>
 
-    <!-- Fornecedores -->
     <div class="view" id="view-fornecedores">
       <div class="page-header">
-        <div class="page-title">Fornecedores</div>
+        <div class="page-title">Fornecedores Homologados</div>
       </div>
       <div class="card">
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Fornecedor</th><th>CNPJ</th><th>Categoria</th>
-                <th>Lead Time</th><th>Status</th><th>Ações</th>
+                <th>Razão Social / Parceiro</th><th>CNPJ</th><th>Linha de Fornecimento</th>
+                <th>Lead Time Médio</th><th>Status de Contrato</th><th>Ações</th>
               </tr>
             </thead>
             <tbody id="fornecedoresBody"></tbody>
@@ -242,26 +244,24 @@
       </div>
     </div>
 
-    <!-- Alertas -->
     <div class="view" id="view-alertas">
       <div class="page-header">
         <div>
-          <div class="page-title">Central de Alertas</div>
-          <div class="page-subtitle">Notificações proativas geradas automaticamente pelo sistema</div>
+          <div class="page-title">Histórico de Ocorrências</div>
+          <div class="page-subtitle">Eventos de sistema e inconformidades logísticas identificadas</div>
         </div>
-        <button class="btn" onclick="clearAllAlerts()">
-          <i class="ph ph-check"></i> Limpar todos
+        <button class="btn secondary" onclick="clearAllAlerts()">
+          <i class="ph ph-check"></i> Marcar todos como lidos
         </button>
       </div>
       <div class="alert-list" id="alertList"></div>
     </div>
 
-    <!-- Chatbot -->
     <div class="view" id="view-chatbot">
       <div class="page-header">
         <div>
-          <div class="page-title">Assistente Logístico IA</div>
-          <div class="page-subtitle">Integração Dialogflow · Consultas em linguagem natural</div>
+          <div class="page-title">Assistente Operacional</div>
+          <div class="page-subtitle">Consulta de relatórios rápidos e comandos por voz/texto</div>
         </div>
       </div>
       <div class="chat-container">
@@ -269,10 +269,10 @@
           <div class="chat-header">
             <div class="bot-avatar"><i class="ph ph-robot"></i></div>
             <div>
-              <div class="bot-name">LogBot — Assistente SIGML</div>
+              <div class="bot-name">SIGML Voice & Chat</div>
               <div class="bot-status">
-                <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>
-                Online
+                <span style="width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block"></span>
+                Terminal Conectado
               </div>
             </div>
           </div>
@@ -280,201 +280,198 @@
           <div class="quick-replies" id="quickReplies"></div>
           <div class="chat-input-area">
             <input class="chat-input" id="chatInput"
-              placeholder="Pergunte sobre estoque, ordens, alertas..."
+              placeholder="Digite sua dúvida sobre estoque, ordens ou prazos..."
               onkeydown="if(event.key==='Enter')sendChat()"/>
-            <button class="chat-send" onclick="sendChat()">Enviar</button>
+            <button class="chat-send" onclick="sendChat()">Consultar</button>
           </div>
         </div>
         <div class="chat-sidebar-panel">
-          <div class="card-title" style="font-size:14px">Dados em Tempo Real</div>
-          <div id="chatSidebar" style="display:flex;flex-direction:column;gap:8px"></div>
+          <div class="card-title" style="font-size:13px; color:var(--text-secondary)">Resumo de Telemetria</div>
+          <div id="chatSidebar" style="display:flex; flex-direction:column; gap:8px"></div>
         </div>
       </div>
     </div>
 
-    <!-- Relatórios -->
     <div class="view" id="view-relatorios">
       <div class="page-header">
-        <div class="page-title">Relatórios</div>
+        <div class="page-title">Módulos de Exportação e BI</div>
       </div>
       <div class="grid-3">
         <div class="card" style="cursor:pointer" onclick="generateReport('producao')">
-          <div style="font-size:28px;margin-bottom:12px;color:var(--text-secondary)">
+          <div style="font-size:24px; margin-bottom:12px; color:var(--text-secondary)">
             <i class="ph ph-chart-line-up"></i>
           </div>
-          <div style="font-weight:500;margin-bottom:6px">Relatório de Produção</div>
-          <div style="font-size:14px;color:var(--text-muted)">Ordens, eficiência e OEE do período</div>
+          <div style="font-weight:600; font-size:15px; margin-bottom:4px">Produtividade e OEE</div>
+          <div style="font-size:13px; color:var(--text-muted)">Gargalos, histórico de paradas e eficiência das linhas.</div>
         </div>
         <div class="card" style="cursor:pointer" onclick="generateReport('estoque')">
-          <div style="font-size:28px;margin-bottom:12px;color:var(--text-secondary)">
+          <div style="font-size:24px; margin-bottom:12px; color:var(--text-secondary)">
             <i class="ph ph-package"></i>
           </div>
-          <div style="font-weight:500;margin-bottom:6px">Relatório de Estoque</div>
-          <div style="font-size:14px;color:var(--text-muted)">Movimentações, giro e ruptura</div>
+          <div style="font-weight:600; font-size:15px; margin-bottom:4px">Giro de Inventário</div>
+          <div style="font-size:13px; color:var(--text-muted)">Curva ABC, movimentações e taxa de ruptura.</div>
         </div>
         <div class="card" style="cursor:pointer" onclick="generateReport('fornecedores')">
-          <div style="font-size:28px;margin-bottom:12px;color:var(--text-secondary)">
+          <div style="font-size:24px; margin-bottom:12px; color:var(--text-secondary)">
             <i class="ph ph-factory"></i>
           </div>
-          <div style="font-weight:500;margin-bottom:6px">Performance de Fornecedores</div>
-          <div style="font-size:14px;color:var(--text-muted)">OTIF, qualidade e lead time</div>
+          <div style="font-weight:600; font-size:15px; margin-bottom:4px">Performance (OTIF)</div>
+          <div style="font-size:13px; color:var(--text-muted)">Nível de serviço, conformidade de entrega e lead times.</div>
         </div>
       </div>
-      <div class="card" style="margin-top:16px;display:none" id="reportOutput"></div>
+      <div class="card" style="margin-top:16px; display:none" id="reportOutput"></div>
     </div>
 
-    <!-- Configurações -->
-   <div class="view" id="view-configuracoes">
+    <div class="view" id="view-configuracoes">
       <div class="page-header">
         <div>
-          <div class="page-title">Configurações do Sistema</div>
-          <div class="page-subtitle">Gerencie os parâmetros operacionais da planta e regras de negócio</div>
+          <div class="page-title">Parâmetros Operacionais do Sistema</div>
+          <div class="page-subtitle">Configurações globais de regras de negócio, limites de segurança e SLAs da planta</div>
         </div>
       </div>
       
       <div class="grid-2">
         <div class="card">
-          <div class="card-title"><i class="ph ph-warning-circle"></i> Alertas e Níveis de Estoque</div>
+          <div class="card-title"><i class="ph ph-warning-circle"></i> Alertas de Margem e Segurança</div>
           <div class="form-group">
-            <label class="form-label">Threshold de Estoque Crítico (%)</label>
+            <label class="form-label">Limite Crítico de Segurança (%)</label>
             <input class="form-input" type="number" id="cfg-threshold" value="20"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Intervalo de Varredura Automatizada (min)</label>
+            <label class="form-label">Frequência da Varredura Automática (minutos)</label>
             <input class="form-input" type="number" id="cfg-interval" value="15"/>
           </div>
           <div class="form-group">
-            <label class="form-label">E-mail para Notificações Críticas (Geral)</label>
+            <label class="form-label">E-mail para Alertas Críticos</label>
             <input class="form-input" id="cfg-email" value="gestao@empresa.com.br"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Notificar Compras automaticamente no nível crítico?</label>
+            <label class="form-label">Regra para Lotes Críticos</label>
             <select class="form-input" id="cfg-auto-buy">
-              <option value="sim" selected>Sim, gerar rascunho de pedido</option>
-              <option value="nao">Não, apenas alertar no painel</option>
+              <option value="sim" selected>Gerar minuta de compra automaticamente</option>
+              <option value="nao">Apenas reportar inconformidade em tela</option>
             </select>
           </div>
-          <button class="btn primary" onclick="saveAlertConfig()">Salvar Alertas</button>
+          <button class="btn primary" onclick="saveAlertConfig()">Salvar Definições</button>
         </div>
 
         <div class="card">
-          <div class="card-title"><i class="ph ph-wrench"></i> Parâmetros de Manufatura & Eficiência</div>
+          <div class="card-title"><i class="ph ph-wrench"></i> Métricas de Engenharia e Manufatura</div>
           <div class="form-group">
-            <label class="form-label">Meta de OEE Global (%)</label>
+            <label class="form-label">Meta Global de OEE (%)</label>
             <input class="form-input" type="number" id="cfg-oee-target" value="85"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Turnos de Trabalho Ativos (por dia)</label>
+            <label class="form-label">Turnos de Trabalho Operacionais / Dia</label>
             <input class="form-input" type="number" id="cfg-shifts" value="3"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Tempo Padrão de Setup de Máquina (min)</label>
+            <label class="form-label">Tempo Padrão de Setup Estimado (minutos)</label>
             <input class="form-input" type="number" id="cfg-setup-time" value="45"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Cálculo de Lead Time Padrão</label>
+            <label class="form-label">Modelo de Cálculo de Lead Time</label>
             <select class="form-input" id="cfg-lead-calc">
-              <option value="historico" selected>Média histórica dos últimos 30 dias</option>
-              <option value="fixo">Estático por cadastro de fornecedor</option>
+              <option value="historico" selected>Média ponderada (Últimos 30 dias)</option>
+              <option value="fixo">Estático com base no contrato do fornecedor</option>
             </select>
           </div>
-          <button class="btn primary" onclick="saveManufConfig()">Salvar Parâmetros de Produção</button>
+          <button class="btn primary" onclick="saveManufConfig()">Salvar Engenharia</button>
         </div>
 
         <div class="card">
-          <div class="card-title"><i class="ph ph-cpu"></i> Integração Coleta de Dados (IoT / Balanças)</div>
+          <div class="card-title"><i class="ph ph-cpu"></i> Protocolos de Automação Industrial (IoT)</div>
           <div class="form-group">
-            <label class="form-label">Protocolo das Balanças de Estoque</label>
+            <label class="form-label">Protocolo de Comunicação de Campo</label>
             <select class="form-input" id="cfg-iot-proto">
-              <option value="mqtt" selected>MQTT (Broker Interno)</option>
+              <option value="mqtt" selected>MQTT (Broker Local)</option>
               <option value="http">HTTP Rest API (Polling)</option>
-              <option value="modbus">Modbus TCP</option>
+              <option value="modbus">Modbus TCP/IP</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Endereço do Broker MQTT (Sensores da Planta)</label>
+            <label class="form-label">Endereço do Gateway MQTT</label>
             <input class="form-input" id="cfg-mqtt-url" placeholder="mqtt://broker.local:1883" value="mqtt://192.168.1.50:1883"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Frequência de Leitura dos Sensores de Esteira</label>
+            <label class="form-label">Janela de Varredura de Sensores Industriais</label>
             <select class="form-input" id="cfg-sensor-freq">
-              <option value="1s">A cada 1 segundo</option>
-              <option value="5s" selected>A cada 5 segundos</option>
-              <option value="30s">A cada 30 segundos</option>
+              <option value="1s">1 segundo</option>
+              <option value="5s" selected>5 segundos (Recomendado)</option>
+              <option value="30s">30 segundos</option>
             </select>
           </div>
-          <button class="btn primary" onclick="saveIotConfig()">Salvar Configurações IoT</button>
+          <button class="btn primary" onclick="saveIotConfig()">Salvar Gateway</button>
         </div>
 
         <div class="card">
-          <div class="card-title"><i class="ph ph-truck"></i> Regras de Logística & Expedição</div>
+          <div class="card-title"><i class="ph ph-truck"></i> Expedição e Políticas Logísticas</div>
           <div class="form-group">
-            <label class="form-label">Critério de Saída de Insumos</label>
+            <label class="form-label">Método de Movimentação de Materiais</label>
             <select class="form-input" id="cfg-log-rule">
-              <option value="fifo" selected>FIFO (Primeiro que entra, primeiro que sai)</option>
-              <option value="fefo">FEFO (Primeiro que vence, primeiro que sai)</option>
-              <option value="lifo">LIFO (Último que entra, primeiro que sai)</option>
+              <option value="fifo" selected>FIFO (First-In, First-Out)</option>
+              <option value="fefo">FEFO (First-Expired, First-Out)</option>
+              <option value="lifo">LIFO (Last-In, First-Out)</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Margem de Tolerância de Atraso de Recebimento (Horas)</label>
+            <label class="form-label">Janela Máxima de Tolerância de Atrasos (Horas)</label>
             <input class="form-input" type="number" id="cfg-log-tolerance" value="4"/>
           </div>
           <div class="form-group">
-            <label class="form-label">Transportadora Padrão para Coleta de Emergência</label>
+            <label class="form-label">Operador Logístico de Contingência</label>
             <input class="form-input" id="cfg-default-carrier" value="Logística Rápida Trans-Brasil Ltda"/>
           </div>
-          <button class="btn primary" onclick="saveLogConfig()">Salvar Regras de Logística</button>
+          <button class="btn primary" onclick="saveLogConfig()">Salvar Diretrizes</button>
         </div>
       </div>
     </div>
+  </main>
+</div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     MODAIS
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modalOrdem">
   <div class="modal">
-    <div class="modal-title">Nova Ordem de Produção</div>
+    <div class="modal-title">Ordem de Produção</div>
     <div class="form-group">
-      <label class="form-label">Produto / Peça</label>
+      <label class="form-label">Produto / Part Number</label>
       <input class="form-input" id="f-produto" placeholder="Ex: Flange de aço ABNT 1020"/>
     </div>
     <div class="form-group">
-      <label class="form-label">Quantidade</label>
-      <input class="form-input" type="number" id="f-qty" placeholder="500"/>
+      <label class="form-label">Quantidade Requerida</label>
+      <input class="form-input" type="number" id="f-qty" placeholder="0"/>
     </div>
     <div class="form-group">
-      <label class="form-label">Responsável</label>
-      <input class="form-input" id="f-resp" placeholder="Nome do operador"/>
+      <label class="form-label">Operador Responsável</label>
+      <input class="form-input" id="f-resp" placeholder="Nome do encarregado"/>
     </div>
     <div class="form-group">
-      <label class="form-label">Prioridade</label>
+      <label class="form-label">Nível de Criticidade</label>
       <select class="form-input" id="f-prio">
         <option value="alta">Alta</option>
-        <option value="media" selected>Média</option>
+        <option value="media" selected>Normal</option>
         <option value="baixa">Baixa</option>
       </select>
     </div>
     <div class="form-group">
-      <label class="form-label">Prazo</label>
+      <label class="form-label">Data de Entrega Limite</label>
       <input class="form-input" type="date" id="f-prazo"/>
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal('modalOrdem')">Cancelar</button>
-      <button class="btn primary" onclick="createOrdem()">Criar Ordem</button>
+      <button class="btn secondary" onclick="closeModal('modalOrdem')">Cancelar</button>
+      <button class="btn primary" onclick="createOrdem()">Confirmar Emissão</button>
     </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="modalItem">
   <div class="modal">
-    <div class="modal-title">Novo Item de Estoque</div>
+    <div class="modal-title">Cadastro de Insumo </div>
     <div class="form-group">
-      <label class="form-label">Nome do Item</label>
+      <label class="form-label">Descrição do Item</label>
       <input class="form-input" id="fi-nome" placeholder="Ex: Parafuso M8 × 25mm"/>
     </div>
     <div class="form-group">
-      <label class="form-label">Categoria</label>
+      <label class="form-label">Classificação de Material</label>
       <select class="form-input" id="fi-cat">
         <option>Fixadores</option>
         <option>Chapas e Perfis</option>
@@ -484,29 +481,24 @@
       </select>
     </div>
     <div class="form-group">
-      <label class="form-label">Quantidade Atual</label>
-      <input class="form-input" type="number" id="fi-qty" placeholder="1000"/>
+      <label class="form-label">Quantidade em Estoque</label>
+      <input class="form-input" type="number" id="fi-qty" placeholder="0"/>
     </div>
     <div class="form-group">
-      <label class="form-label">Estoque Mínimo (threshold alerta)</label>
-      <input class="form-input" type="number" id="fi-min" placeholder="200"/>
+      <label class="form-label">Ponto de Ressuprimento (Mínimo)</label>
+      <input class="form-input" type="number" id="fi-min" placeholder="0"/>
     </div>
     <div class="form-group">
-      <label class="form-label">Estoque Máximo</label>
-      <input class="form-input" type="number" id="fi-max" placeholder="2000"/>
+      <label class="form-label">Capacidade Máxima Armazenamento</label>
+      <input class="form-input" type="number" id="fi-max" placeholder="0"/>
     </div>
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal('modalItem')">Cancelar</button>
-      <button class="btn primary" onclick="createItem()">Salvar Item</button>
+      <button class="btn secondary" onclick="closeModal('modalItem')">Cancelar</button>
+      <button class="btn primary" onclick="createItem()">Salvar Registro</button>
     </div>
   </div>
 </div>
 
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SCRIPTS (ordem de dependência)
-     ═══════════════════════════════════════════════════════════════ -->
 <script src="js/config.js"></script>
 <script src="js/state.js"></script>
 <script src="js/firebase.js"></script>

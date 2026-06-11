@@ -22,7 +22,6 @@ function createOrdem() {
 
   const num  = String(STATE.ordens.length + 1).padStart(3, '0');
   const nova = {
-    id:          `OP-2025-${num}`,
     produto, qty, responsavel: resp, prio,
     status: addingToColumn || 'planejamento',
     prazo,
@@ -55,8 +54,8 @@ function createItem() {
   if (!nome || !qty || !min || !max) { alert('Preencha todos os campos.'); return; }
 
   const id       = 'EST-' + String(STATE.estoque.length + 1).padStart(3, '0');
-  const sku      = nome.substring(0,3).toUpperCase() + '-' + Math.floor(Math.random()*9000+1000);
-  const novoItem = { id, sku, nome, cat, qty, min, max, unidade: 'un' };
+  
+  const novoItem = { id, nome, cat, qty, min, max, unidade: 'un' };
   STATE.estoque.push(novoItem);
 
   if (!IS_DEMO && DB) DB.ref('estoque/' + id).set(novoItem);
