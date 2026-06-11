@@ -79,7 +79,7 @@
       </svg>
     </button>
 
-    <div class="alert-badge" onclick="navigate('alertas')" title="Alertas do Sistema">
+    <div class="alert-badge" onclick="navigate('alertas')" title="Alertas do Sistema" style="cursor: pointer;">
       <i class="ph ph-bell"></i>
       <div class="count" id="alertCount">0</div>
     </div>
@@ -535,7 +535,7 @@
         </div>
         <div class="table-wrap">
           <table id="reportTable">
-            <thead id="reportTableHead"></thead>
+            <make id="reportTableHead"></make>
             <tbody id="reportTableBody"></tbody>
           </table>
         </div>
@@ -625,5 +625,98 @@
 <script src="js/reports.js"></script>
 <script src="js/app.js"></script>
 
+<script>
+(function() {
+    // Dados globais de fallback caso o firebase não responda na view
+    window.backupAlertData = window.backupAlertData || {
+        "alerta_1": { titulo: "Estoque Crítico: Chapa Inox 304", descricao: "Quantidade atual (12 un) abaixo do mínimo (30 un).", tempo: "há 2 horas", resolvido: false },
+        "alerta_2": { titulo: "Estoque Crítico: Luva Nitrílica", descricao: "Quantidade atual (18 par) abaixo do mínimo (100 par). Risco de parada.", tempo: "há 3 horas", resolvido: false },
+        "alerta_3": { titulo: "Prazo Crítico: OP-2025-007", descricao: "Ordem de Produção com prazo em 2 dias com status 'Em Produção'.", tempo: "há 1 hora", resolvido: false },
+        "alerta_4": { titulo: "Fornecedor Suspenso: Inox do Brasil", descricao: "Fornecedor suspenso possui 3 ordens pendentes.", tempo: "há 5 horas", resolvido: false },
+        "alerta_5": { titulo: "Produção Concluída: OP-2025-004", descricao: "Ordem finalizada com 200 peças aprovadas no CQ.", tempo: "há 6 horas", resolvido: true }
+    };
+
+    // Função global para resolver um alerta individual pelo injetor
+    window.resolverAlertaInjetor = function(id) {
+        if (window.backupAlertData[id]) {
+            window.backupAlertData[id].resolvido = true;
+            // Se o Firebase/State corporativo existir, tenta atualizar nele também
+            if (typeof window.state !== 'undefined' && window.state.alertas && window.state.alertas[id]) {
+                window.state.alertas[id].resolvido = true;
+            }
+            blindagemRender();
+        }
+    };
+
+    // Função global para limpar todos os alertas
+    window.clearAllAlerts = function() {
+        Object.keys(window.backupAlertData).forEach(key => {
+            window.backupAlertData[key].resolvido = true;
+        });
+        if (typeof window.state !== 'undefined' && window.state.alertas) {
+            Object.keys(window.state.alertas).forEach(key => {
+                window.state.alertas[key].resolvido = true;
+            });
+        }
+        blindagemRender();
+    };
+
+    function blindagemRender() {
+        const target = document.getElementById('alertList');
+        if (!target) return;
+        
+        target.innerHTML = '';
+        let dadosValidos = window.backupAlertData;
+
+        // Tenta sincronizar com o estado real da aplicação se disponível
+        if (typeof window.state !== 'undefined' && window.state.alertas) {
+            dadosValidos = window.state.alertas;
+        }
+        
+        Object.keys(dadosValidos).forEach(key => {
+            const a = dadosValidos[key];
+            const color = a.resolvido ? 'var(--green)' : 'var(--red)';
+            const opacity = a.resolvido ? 'opacity: 0.6;' : 'opacity: 1;';
+            
+            // Renderiza o botão "Resolver" apenas se o alerta não estiver resolvido
+            const botaoResolver = !a.resolvido 
+                ? `<button class="btn secondary" onclick="resolverAlertaInjetor('${key}')" style="padding: 4px 8px; font-size: 12px; height: auto; border-color: var(--border);"><i class="ph ph-check"></i> Resolver</button>`
+                : `<span style="color: var(--green); font-size: 12px; display: flex; align-items: center; gap: 4px;"><i class="ph ph-check-circle"></i> Resolvido</span>`;
+
+            const html = `
+                <div class="card" style="margin-bottom: 12px; border-left: 4px solid ${color}; ${opacity} display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--bg-card);">
+                    <div style="flex: 1; padding-right: 16px;">
+                        <strong style="color: var(--text-primary); display: block; font-size: 14px; margin-bottom: 4px;">${a.titulo}</strong>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin: 0 0 6px 0;">${a.descricao}</p>
+                        <span style="font-size: 11px; color: var(--text-muted);">${a.tempo}</span>
+                    </div>
+                    <div style="flex-shrink: 0;">
+                        ${botaoResolver}
+                    </div>
+                </div>`;
+            target.insertAdjacentHTML('beforeend', html);
+        });
+
+        // Atualização dinâmica das contagens nas badges do sistema
+        const pCount = Object.values(dadosValidos).filter(i => !i.resolvido).length;
+        if(document.getElementById('alertCount')) document.getElementById('alertCount').textContent = pCount;
+        if(document.getElementById('alertBadge')) document.getElementById('alertBadge').textContent = pCount;
+        if(document.getElementById('m-alertas')) document.getElementById('m-alertas').textContent = pCount;
+    }
+
+    // Intercepta cliques de troca de abas para garantir a renderização automática
+    document.addEventListener('click', function(e) {
+        const item = e.target.closest('[onclick*="alertas"]');
+        if (item) {
+            setTimeout(blindagemRender, 50);
+        }
+    });
+
+    // Renderização inicial
+    window.addEventListener('load', () => {
+        setTimeout(blindagemRender, 500);
+    });
+})();
+</script>
 </body>
 </html>
