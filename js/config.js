@@ -35,25 +35,25 @@ const BOT_INTENTS = {
     const criticos = STATE.estoque.filter(i => i.qty < i.min);
     if (criticos.length === 0)
       return 'Todos os itens de estoque estão dentro dos níveis mínimos. Ótima gestão! 📦';
-    return `⚠️ **${criticos.length} item(ns) em nível crítico:**\n\n${criticos.map(i => `• **${i.nome}**: ${i.qty}/${i.min} ${i.unidade}`).join('\n')}\n\nRecomendo acionar os fornecedores imediatamente.`;
+    return ` **${criticos.length} item(ns) em nível crítico:**\n\n${criticos.map(i => `• **${i.nome}**: ${i.qty}/${i.min} ${i.unidade}`).join('\n')}\n\nRecomendo acionar os fornecedores imediatamente.`;
   },
   ordens: () => {
     const ativas = STATE.ordens.filter(o => !['concluido','cancelado'].includes(o.status));
     const alta   = ativas.filter(o => o.prio === 'alta');
-    return `📊 **Ordens em andamento:** ${ativas.length}\n🔴 Alta prioridade: ${alta.length}\n\n${alta.slice(0,3).map(o => `• ${o.id}: ${o.produto} (${o.status})`).join('\n')}`;
+    return ` **Ordens em andamento:** ${ativas.length}\n🔴 Alta prioridade: ${alta.length}\n\n${alta.slice(0,3).map(o => `• ${o.id}: ${o.produto} (${o.status})`).join('\n')}`;
   },
   alertas: () => {
     const pend = STATE.alertas.filter(a => a.ativo);
     if (pend.length === 0) return 'Nenhum alerta ativo no momento. Sistema operando normalmente ✅';
-    return `🚨 **${pend.length} alerta(s) pendente(s):**\n\n${pend.map(a => `• ${a.titulo}`).join('\n')}`;
+    return ` **${pend.length} alerta(s) pendente(s):**\n\n${pend.map(a => `• ${a.titulo}`).join('\n')}`;
   },
   metricas: () =>
-    `📈 **Métricas do dia:**\n• Ordens ativas: ${STATE.metricas.ordensAtivas}\n• Peças produzidas (mês): ${STATE.metricas.pecasMes.toLocaleString('pt-BR')}\n• Itens críticos: ${STATE.metricas.itensCriticos}\n• Alertas pendentes: ${STATE.metricas.alertasPendentes}`,
+    ` **Métricas do dia:**\n• Ordens ativas: ${STATE.metricas.ordensAtivas}\n• Peças produzidas (mês): ${STATE.metricas.pecasMes.toLocaleString('pt-BR')}\n• Itens críticos: ${STATE.metricas.itensCriticos}\n• Alertas pendentes: ${STATE.metricas.alertasPendentes}`,
   ajuda: () =>
-    '🤖 Posso ajudar com:\n• **estoque** — verificar níveis e alertas\n• **ordens** — status das ordens de produção\n• **alertas** — alertas pendentes\n• **métricas** — indicadores do sistema\n• **fornecedores** — status dos fornecedores',
+    ' Posso ajudar com:\n• **estoque** — verificar níveis e alertas\n• **ordens** — status das ordens de produção\n• **alertas** — alertas pendentes\n• **métricas** — indicadores do sistema\n• **fornecedores** — status dos fornecedores',
   fornecedores: () => {
     const susp = STATE.fornecedores.filter(f => f.status === 'suspenso');
-    return `🏭 **Fornecedores:** ${STATE.fornecedores.length} cadastrados\n⛔ Suspensos: ${susp.length}${susp.length ? '\n' + susp.map(f => `• ${f.nome}`).join('\n') : ''}`;
+    return ` **Fornecedores:** ${STATE.fornecedores.length} cadastrados\n⛔ Suspensos: ${susp.length}${susp.length ? '\n' + susp.map(f => `• ${f.nome}`).join('\n') : ''}`;
   }
 };
 

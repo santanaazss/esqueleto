@@ -107,7 +107,7 @@ function renderKanban() {
               </div>
               <div class="kc-meta">
                 <span class="kc-prio ${c.prio}">${c.prio.charAt(0).toUpperCase()+c.prio.slice(1)}</span>
-                <span class="kc-date">📅 ${formatDate(c.prazo)}</span>
+                <span class="kc-date"> ${formatDate(c.prazo)}</span>
               </div>
             </div>`).join('')}
         </div>
@@ -131,14 +131,13 @@ function renderEstoque() {
     const barColor = isCrit ? 'var(--red)' : isLow ? 'var(--amber)' : 'var(--green)';
     return `
       <div class="item-card ${isCrit?'critical':isLow?'low':''}">
-        <div class="item-sku">${item.sku}</div>
         <div class="item-name">${item.nome}</div>
         <div class="item-cat">${item.cat}</div>
         <div class="progress-bar">
           <div class="progress-fill" style="width:${pct}%;background:${barColor}"></div>
         </div>
         <div class="item-qty">
-          <span>${isCrit?'🔴':isLow?'🟡':'🟢'} <span class="qty-val">${item.qty.toLocaleString('pt-BR')} ${item.unidade}</span></span>
+         
           <span style="color:var(--text-muted)">mín: ${item.min} / máx: ${item.max}</span>
         </div>
         <div style="display:flex;gap:6px;margin-top:10px">
@@ -171,15 +170,15 @@ function renderAlertas() {
   document.getElementById('alertList').innerHTML = STATE.alertas.map(a => `
     <div class="alert-item" style="${!a.ativo?'opacity:0.5':''}">
       <div class="alert-icon ${a.tipo}">
-        ${a.tipo==='red'?'🚨':a.tipo==='amber'?'⚠️':'✅'}
+        ${a.tipo==='red'?'':a.tipo==='amber'?'':''}
       </div>
       <div class="alert-body">
         <div class="alert-title">${a.titulo}</div>
         <div class="alert-desc">${a.desc}</div>
         <div class="alert-time">${a.time}</div>
         ${a.ativo ? `<div class="alert-actions">
-          <button class="alert-btn" onclick="resolveAlert('${a.id}')">✓ Resolver</button>
-          <button class="alert-btn" onclick="snoozeAlert('${a.id}')">⏰ Adiar</button>
+          <button class="alert-btn" onclick="resolveAlert('${a.id}')">Resolver</button>
+          <button class="alert-btn" onclick="snoozeAlert('${a.id}')"> Adiar</button>
         </div>` : '<div class="alert-time" style="color:var(--green)">✓ Resolvido</div>'}
       </div>
     </div>`).join('');

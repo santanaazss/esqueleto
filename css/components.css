@@ -7,7 +7,7 @@
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 24px;
 }
-.page-title    { font-size: 25px; font-weight: 600; color: var(--text-primary); }
+.page-title    { font-size: 35px; font-weight: 600; color: var(--text-primary); }
 .page-subtitle { font-size: 15px; color: var(--text-muted); margin-top: 2px; }
 
 .btn {
@@ -18,7 +18,7 @@
   background: var(--bg-card);
   color: var(--text-primary);
   font-family: var(--font); 
-font-size: 16px;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -152,10 +152,10 @@ tr:hover td { background: var(--bg-elevated); color: var(--text-primary); }
 }
 .kanban-title {
   
-font-size: 15px; font-weight: 500; color: var(--text-secondary);
+font-size: 15px; font-weight: 500; color: var(--text-primary);
   display: flex; align-items: center; gap: 6px;
 }
-.kanban-dot   { width: 8px; height: 8px; border-radius: 50%; }
+
 .kanban-count {
   font-size: 14px;
   background: var(--bg-elevated);
@@ -177,7 +177,7 @@ font-size: 15px; font-weight: 500; color: var(--text-secondary);
 .kanban-card.dragging { opacity: 0.5; }
 .kc-id    { font-size: 10px; font-family: var(--mono); color: var(--text-muted); margin-bottom: 6px; }
 .kc-title { 
-font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 8px; }
+font-size: 15px; font-weight: 500; color: var(--text-secondary); margin-bottom: 8px; }
 .kc-meta  { display: flex; align-items: center; justify-content: space-between; }
 .kc-prio  { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
 .kc-prio.alta  { background: var(--red-dim);   color: var(--red); }
@@ -208,7 +208,6 @@ font-size: 15px; color: var(--text-muted);
   transition: border-color 0.2s;
   box-shadow: var(--shadow);
 }
-.item-card.critical { border-color: var(--red); }
 .item-card.low      { border-color: var(--amber); }
 .item-name { 
 font-size: 16px; font-weight: 500; color: var(--text-primary); margin: 4px 0; }
