@@ -14,18 +14,18 @@ let STATE = {
 // ── Dados iniciais de demonstração ────────────────────────────────
 function seedDemoData() {
   STATE.ordens = [
-    { id: "OP-2025-001", produto: "Flange Aço ABNT 1020 ø50mm",     qty: 500,  responsavel: "Carlos Mendes",   prio: "alta",  status: "producao",     prazo: "2025-06-10", criado: Date.now() - 86400000*2 },
-    { id: "OP-2025-002", produto: "Eixo Vazado 420mm",               qty: 120,  responsavel: "Ana Souza",       prio: "media", status: "qualidade",    prazo: "2025-06-12", criado: Date.now() - 86400000 },
-    { id: "OP-2025-003", produto: "Suporte Estampado Zincado",       qty: 800,  responsavel: "João Lima",       prio: "baixa", status: "aguardando",   prazo: "2025-06-18", criado: Date.now() - 86400000*3 },
-    { id: "OP-2025-004", produto: "Chapa Perfurada 3mm",             qty: 200,  responsavel: "Maria Costa",     prio: "alta",  status: "concluido",    prazo: "2025-06-05", criado: Date.now() - 86400000*5 },
-    { id: "OP-2025-005", produto: "Bucha Bronze SAE 660",            qty: 350,  responsavel: "Pedro Alves",     prio: "media", status: "planejamento", prazo: "2025-06-20", criado: Date.now() },
-    { id: "OP-2025-006", produto: "Porca Sextavada M16 Inox",        qty: 2000, responsavel: "Fernanda Reis",   prio: "baixa", status: "aguardando",   prazo: "2025-06-25", criado: Date.now() - 3600000 },
-    { id: "OP-2025-007", produto: "Chaveta Paralela DIN 6885",       qty: 600,  responsavel: "Ricardo Neto",    prio: "alta",  status: "producao",     prazo: "2025-06-08", criado: Date.now() - 7200000 },
-    { id: "OP-2025-008", produto: "Tampa Fundida GG-25",             qty: 80,   responsavel: "Luciana Torres",  prio: "media", status: "qualidade",    prazo: "2025-06-14", criado: Date.now() - 86400000*4 },
+    { id: "OP-2025-001", produto: "Flange Aço ABNT 1020 ø50mm",     qty: 500,  responsavel: "Gustavo",   prio: "alta",  status: "producao",     prazo: "2025-06-10", criado: Date.now() - 86400000*2 },
+    { id: "OP-2025-002", produto: "Eixo Vazado 420mm",               qty: 120,  responsavel: "Ana Ferre",       prio: "media", status: "qualidade",    prazo: "2025-06-12", criado: Date.now() - 86400000 },
+    { id: "OP-2025-003", produto: "Suporte Estampado Zincado",       qty: 800,  responsavel: "Nicole",       prio: "baixa", status: "aguardando",   prazo: "2025-06-18", criado: Date.now() - 86400000*3 },
+    { id: "OP-2025-004", produto: "Chapa Perfurada 3mm",             qty: 200,  responsavel: "Isabelly",     prio: "alta",  status: "concluido",    prazo: "2025-06-05", criado: Date.now() - 86400000*5 },
+    { id: "OP-2025-005", produto: "Bucha Bronze SAE 660",            qty: 350,  responsavel: "Lara",     prio: "media", status: "planejamento", prazo: "2025-06-20", criado: Date.now() },
+    { id: "OP-2025-006", produto: "Porca Sextavada M16 Inox",        qty: 2000, responsavel: "Gleidsson",   prio: "baixa", status: "aguardando",   prazo: "2025-06-25", criado: Date.now() - 3600000 },
+    { id: "OP-2025-007", produto: "Chaveta Paralela DIN 6885",       qty: 600,  responsavel: "Nicole",    prio: "alta",  status: "producao",     prazo: "2025-06-08", criado: Date.now() - 7200000 },
+    { id: "OP-2025-008", produto: "Tampa Fundida GG-25",             qty: 80,   responsavel: "Gustavo Oliveira",  prio: "media", status: "qualidade",    prazo: "2025-06-14", criado: Date.now() - 86400000*4 },
     { id: "OP-2025-009", produto: "Mola Helicoidal D=25mm",          qty: 450,  responsavel: "Marcos Silva",    prio: "baixa", status: "cancelado",    prazo: "2025-06-01", criado: Date.now() - 86400000*7 },
-    { id: "OP-2025-010", produto: "Pino Cilíndrico Temperado",       qty: 1200, responsavel: "Camila Faria",    prio: "alta",  status: "planejamento", prazo: "2025-06-22", criado: Date.now() - 1800000 },
-    { id: "OP-2025-011", produto: "Engrenagem Helicoidal M2",        qty: 60,   responsavel: "Diego Martins",   prio: "media", status: "producao",     prazo: "2025-06-11", criado: Date.now() - 86400000*1.5 },
-    { id: "OP-2025-012", produto: "Arruela de Pressão M12",          qty: 3000, responsavel: "Patrícia Duarte", prio: "baixa", status: "concluido",    prazo: "2025-06-03", criado: Date.now() - 86400000*6 },
+    { id: "OP-2025-010", produto: "Pino Cilíndrico Temperado",       qty: 1200, responsavel: "Ana Clara",    prio: "alta",  status: "planejamento", prazo: "2025-06-22", criado: Date.now() - 1800000 },
+    { id: "OP-2025-011", produto: "Engrenagem Helicoidal M2",        qty: 60,   responsavel: "Isabelly",   prio: "media", status: "producao",     prazo: "2025-06-11", criado: Date.now() - 86400000*1.5 },
+    { id: "OP-2025-012", produto: "Arruela de Pressão M12",          qty: 3000, responsavel: "Lara", prio: "baixa", status: "concluido",    prazo: "2025-06-03", criado: Date.now() - 86400000*6 },
   ];
 
   STATE.estoque = [

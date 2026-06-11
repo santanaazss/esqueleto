@@ -87,9 +87,9 @@ function loadReportData(type) {
     
     // Tenta buscar da tabela principal do seu sistema ou usa mock estruturado
     currentReportData = window.currentOrdensList || [
-      {id: "OP-2026-001", item: "Flange Aço ABNT 1020", qty: 500, resp: "Carlos Mendes", status: "Aguardando Mat.", prazo: "17/06/2026"},
-      {id: "OP-2026-002", item: "Eixo Vazado 420mm", qty: 120, resp: "Ana Souza", status: "Controle QA", prazo: "11/06/2026"},
-      {id: "OP-2026-003", item: "Porca Sextavada M16 Inox", qty: 2000, resp: "Fernanda Reis", status: "Em Produção", prazo: "24/06/2026"}
+      {id: "OP-2026-001", item: "Flange Aço ABNT 1020", qty: 500, resp: "Ana Ferre", status: "Aguardando Mat.", prazo: "17/06/2026"},
+      {id: "OP-2026-002", item: "Eixo Vazado 420mm", qty: 120, resp: "Ana Ferre", status: "Controle QA", prazo: "11/06/2026"},
+      {id: "OP-2026-003", item: "Porca Sextavada M16 Inox", qty: 2000, resp: "Gleidsson", status: "Em Produção", prazo: "24/06/2026"}
     ];
     
     thead.innerHTML = `<tr>${currentReportHeaders.map(h => `<th>${h}</th>`).join('')}</tr>`;
