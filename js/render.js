@@ -120,32 +120,68 @@ function renderKanban() {
 }
 
 // ── Estoque ────────────────────────────────────────────────────────
+// ── Estoque (corrigido para usar a tabela do HTML) ────────────────
 function renderEstoque() {
-  document.getElementById('estoqueBadge').textContent =
-    STATE.estoque.filter(i => i.qty < i.min).length;
+  const tbody = document.getElementById('estoqueTableBody');
+  if (!tbody) return;
 
-  document.getElementById('estoqueGrid').innerHTML = STATE.estoque.map(item => {
-    const pct     = Math.min(100, Math.round(item.qty / item.max * 100));
-    const isCrit  = item.qty < item.min;
-    const isLow   = !isCrit && item.qty < item.min * 1.5;
-    const barColor = isCrit ? 'var(--red)' : isLow ? 'var(--amber)' : 'var(--green)';
+  // Atualiza o badge do estoque no menu
+  const criticos = STATE.estoque.filter(i => i.qty < i.min).length;
+  const badgeEstoque = document.getElementById('estoqueBadge');
+  if (badgeEstoque) badgeEstoque.textContent = criticos;
+
+  // Gera as linhas da tabela dinamicamente
+  tbody.innerHTML = STATE.estoque.map(item => {
+    const pct = Math.min(100, Math.round((item.qty / item.max) * 100));
+    let statusColor = 'var(--green)';
+    let statusText = 'Normal';
+    if (item.qty < item.min) {
+      statusColor = 'var(--red)';
+      statusText = 'Crítico';
+    } else if (item.qty < item.min * 1.5) {
+      statusColor = 'var(--amber)';
+      statusText = 'Atenção';
+    }
+
     return `
-      <div class="item-card ${isCrit?'critical':isLow?'low':''}">
-        <div class="item-name">${item.nome}</div>
-        <div class="item-cat">${item.cat}</div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:${pct}%;background:${barColor}"></div>
-        </div>
-        <div class="item-qty">
-         
-          <span style="color:var(--text-muted)">mín: ${item.min} / máx: ${item.max}</span>
-        </div>
-        <div style="display:flex;gap:6px;margin-top:10px">
-          <button class="btn" style="font-size:13px;padding:4px 8px;flex:1" onclick="ajustarEstoque('${item.id}','entrada')">+ Entrada</button>
-          <button class="btn" style="font-size:13px;padding:4px 8px;flex:1" onclick="ajustarEstoque('${item.id}','saida')">− Saída</button>
-        </div>
-      </div>`;
+      <tr>
+        <td><strong>${escapeHtml(item.nome)}</strong></td>
+        <td><span class="badge">${escapeHtml(item.cat)}</span></td>
+        <td>${item.min}</td>
+        <td>${item.max}</td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;">
+              <div style="width: ${pct}%; height: 100%; background: ${statusColor};"></div>
+            </div>
+            <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: ${statusColor};">${pct}%</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">${item.qty} / ${item.max} ${item.unidade || 'un'}</div>
+        </td>
+        <td style="text-align: center;">
+          <div style="display: flex; gap: 6px; justify-content: center;">
+            <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;" onclick="ajustarEstoque('${item.id}', 'entrada')">
+              <i class="ph ph-plus"></i> Entrada
+            </button>
+            <button class="btn secondary" style="padding: 4px 8px; font-size: 12px;" onclick="ajustarEstoque('${item.id}', 'saida')">
+              <i class="ph ph-minus"></i> Saída
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
   }).join('');
+}
+
+// Função auxiliar para escapar HTML (evitar injeção)
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
 }
 
 // ── Fornecedores ───────────────────────────────────────────────────
