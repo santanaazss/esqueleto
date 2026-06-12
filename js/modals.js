@@ -53,9 +53,11 @@ function createItem() {
 
   if (!nome || !qty || !min || !max) { alert('Preencha todos os campos.'); return; }
 
-  const id       = 'EST-' + String(STATE.estoque.length + 1).padStart(3, '0');
-  
-  const novoItem = { id, nome, cat, qty, min, max, unidade: 'un' };
+  const id = 'EST-' + String(STATE.estoque.length + 1).padStart(3, '0');
+  const novoItem = { 
+    id, nome, cat, qty, min, max, 
+    unidade: 'un'   // ← padrão unidade
+  };
   STATE.estoque.push(novoItem);
 
   if (!IS_DEMO && DB) DB.ref('estoque/' + id).set(novoItem);
