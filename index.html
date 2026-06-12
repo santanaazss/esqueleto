@@ -459,39 +459,60 @@
     </div>
 
     <div class="view" id="view-chatbot">
-      <div class="page-header">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Assistente Operacional</div>
+      <div class="page-subtitle">Consulta de relatórios rápidos e comandos por voz/texto</div>
+    </div>
+  </div>
+  <div class="chat-container">
+    <div class="chat-main">
+      <div class="chat-header">
+        <div class="bot-avatar"><i class="ph ph-robot" style="font-size: 20px;"></i></div>
         <div>
-          <div class="page-title">Assistente Operacional</div>
-          <div class="page-subtitle">Consulta de relatórios rápidos e comandos por voz/texto</div>
+          <div class="bot-name">SIGML Voice & Chat</div>
+          <div class="bot-status">
+            <span style="width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block"></span>
+            Terminal Conectado
+          </div>
         </div>
       </div>
-      <div class="chat-container">
-        <div class="chat-main">
-          <div class="chat-header">
-            <div class="bot-avatar"><i class="ph ph-robot"></i></div>
-            <div>
-              <div class="bot-name">SIGML Voice & Chat</div>
-              <div class="bot-status">
-                <span style="width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block"></span>
-                Terminal Conectado
-              </div>
-            </div>
-          </div>
-          <div class="chat-messages" id="chatMessages"></div>
-          <div class="quick-replies" id="quickReplies"></div>
-          <div class="chat-input-area">
-            <input class="chat-input" id="chatInput"
-              placeholder="Digite sua dúvida sobre estoque, ordens ou prazos..."
-              onkeydown="if(event.key==='Enter')sendChat()"/>
-            <button class="chat-send" onclick="sendChat()">Consultar</button>
-          </div>
-        </div>
-        <div class="chat-sidebar-panel">
-          <div class="card-title" style="font-size:13px; color:var(--text-secondary)">Resumo de Telemetria</div>
-          <div id="chatSidebar" style="display:flex; flex-direction:column; gap:8px"></div>
-        </div>
+      
+      <div class="chat-messages" id="chatMessages"></div>
+      
+      <!-- Suggestion Carousel -->
+      <div class="suggestion-carousel" id="suggestionCarousel"></div>
+      
+      <!-- Quick Replies -->
+      <div class="quick-replies" id="quickReplies"></div>
+      
+      <!-- Chat Input Area - Enlarged -->
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="chatInput"
+          placeholder="Digite sua dúvida sobre estoque, ordens ou prazos... (Shift+Enter para nova linha, Enter para enviar)"
+          rows="2"
+          onkeydown="handleChatKeydown(event)"></textarea>
+        <button class="chat-send" onclick="sendChat()">
+          <i class="ph ph-paper-plane-right"></i> Enviar
+        </button>
+      </div>
+      
+      <!-- Chat Footer -->
+      <div class="chat-footer">
+        <span><i class="ph ph-robot"></i> Respostas automáticas</span>
+        <span><i class="ph ph-clock"></i> Disponível 24/7</span>
+        <span><i class="ph ph-shield-check"></i> Dados em tempo real</span>
       </div>
     </div>
+    
+    <div class="chat-sidebar-panel">
+      <div class="card-title" style="font-size:13px; color:var(--text-secondary); margin-bottom: 12px;">
+        <i class="ph ph-chart-line"></i> Resumo de Telemetria
+      </div>
+      <div id="chatSidebar" style="display:flex; flex-direction:column; gap:12px"></div>
+    </div>
+  </div>
+</div>
 
     <div class="view" id="view-relatorios">
       <div class="page-header">
