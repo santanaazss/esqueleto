@@ -42,14 +42,8 @@ const SUGGESTION_CATEGORIES = {
     ]
 };
 
-// Combined suggestions for quick access
-const QUICK_SUGGESTIONS = [
-    " Métricas do dia",
-    " Estoque crítico",
-    " Ordens ativas",
-    " Alertas pendentes",
-    " Ajuda"
-];
+
+
 
 let currentSuggestionCategory = null;
 let suggestionCarouselIndex = 0;
