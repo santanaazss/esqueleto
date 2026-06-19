@@ -132,7 +132,7 @@ function loadReportData(type) {
     currentReportData = [
       {nome: "Metalúrgica Gerdau S.A.", linha: "Aços e Perfis", lead: "5 dias", otif: "98.2%", status: "Ativo"},
       {nome: "Suprimentos Industriais Alfa", linha: "Fixadores e EPIs", lead: "3 dias", otif: "94.5%", status: "Em Revisão"},
-      {nome: "Eletro Componentes Brasil", linha: "Painéis e Fiação", lead: "12 dias", lead: "89.0%", status: "Ativo"}
+      {nome: "Eletro Componentes Brasil", linha: "Painéis e Fiação", lead: "12 dias", otif: "89.0%", status: "Ativo"}
     ];
     
     thead.innerHTML = `<tr>${currentReportHeaders.map(h => `<th>${h}</th>`).join('')}</tr>`;
