@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   SIGML 4.0 — Chatbot (LogBot) with Suggestions
+   SIGML 4.0 — Chatbot (LogBot) with Suggestions & Voice
    ═══════════════════════════════════════════════════════════════ */
 
 // Predefined suggestion categories with multiple options
@@ -42,11 +42,12 @@ const SUGGESTION_CATEGORIES = {
     ]
 };
 
-
-
-
 let currentSuggestionCategory = null;
 let suggestionCarouselIndex = 0;
+
+// Estado do Reconhecimento de Voz
+let recognition = null;
+let isListening = false;
 
 function initChat() {
     const msgs = document.getElementById('chatMessages');
@@ -58,6 +59,72 @@ function initChat() {
     renderSuggestionCarousel();
     renderQuickReplies();
 }
+
+// =================════ FUNÇÃO DO MICROFONE =================════
+function toggleVoiceRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+        alert("Seu navegador não suporta reconhecimento de voz. Tente usar o Google Chrome.");
+        return;
+    }
+
+    const voiceBtn = document.getElementById('voiceBtn');
+    const micIcon = document.getElementById('micIcon');
+
+    // Inicializa o leitor de voz se ele não existir
+    if (!recognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'pt-BR';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        // Quando o microfone começa a ouvir
+        recognition.onstart = () => {
+            isListening = true;
+            if (voiceBtn) voiceBtn.classList.add('listening');
+            if (micIcon) micIcon.className = 'ph ph-stop'; // Altera o ícone para "Parar"
+        };
+
+        // Quando o navegador traduz a voz em texto com sucesso
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = transcript;
+                sendChat(); // Envia automaticamente o comando capturado por voz
+            }
+        };
+
+        // Trata erros (ex: microfone bloqueado ou silêncio)
+        recognition.onerror = (event) => {
+            console.error("Erro no reconhecimento de voz:", event.error);
+            stopVoiceUI();
+        };
+
+        // Quando a gravação encerra
+        recognition.onend = () => {
+            stopVoiceUI();
+        };
+    }
+
+    // Alterna entre ligar e desligar
+    if (!isListening) {
+        recognition.start();
+    } else {
+        recognition.stop();
+    }
+}
+
+// Reseta a interface visual do botão de voz
+function stopVoiceUI() {
+    isListening = false;
+    const voiceBtn = document.getElementById('voiceBtn');
+    const micIcon = document.getElementById('micIcon');
+    if (voiceBtn) voiceBtn.classList.remove('listening');
+    if (micIcon) micIcon.className = 'ph ph-microphone'; // Volta para o ícone padrão
+}
+// =================══════════════════════════════════════════════
 
 function renderSuggestionCarousel() {
     const carousel = document.getElementById('suggestionCarousel');
